@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commnands
+from discord.ext import commands
 
 class Mod:
     def __init(self, bot):
