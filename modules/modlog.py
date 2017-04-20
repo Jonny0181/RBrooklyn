@@ -25,6 +25,12 @@ class ModLog:
             db = fileIO(self.direct, "load")
             server = ctx.message.server
             await self.bot.send_cmd_help(ctx)
+
+    @commands.group(pass_context=True, no_pm=True)
+    async def modlogset(self, ctx):
+        """Change modlog settings"""
+        if ctx.invoked_subcommand is None:
+            await self.bot.send_cmd_help(ctx)
             
     @modlogset.command(pass_context=True)
     async def status(self, ctx):
@@ -45,12 +51,6 @@ class ModLog:
             await self.bot.say(embed=e)
         except KeyError:
             await self.bot.say("No settings for this server.")
-
-    @commands.group(pass_context=True, no_pm=True)
-    async def modlogset(self, ctx):
-        """Change modlog settings"""
-        if ctx.invoked_subcommand is None:
-            await self.bot.send_cmd_help(ctx)
             
     @modlogset.command(pass_context=True, name="ignore", no_pm=True)
     async def _ignore(self, ctx, channel: discord.Channel=None):
