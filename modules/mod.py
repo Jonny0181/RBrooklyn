@@ -39,7 +39,6 @@ class Mod:
             print(e)
 
     @commands.group(pass_context=True)
-    @checks.mod_or_permissions(manage_messages=True)
     async def prune(self, ctx):
         """Deletes messages."""
         channel = ctx.message.channel
