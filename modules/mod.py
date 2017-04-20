@@ -2,8 +2,8 @@ import discord
 from discord.ext import commnands
 
 class Mod:
-	def __init(self, bot):
-		self.bot = bot
+    def __init(self, bot):
+        self.bot = bot
         self._tmp_banned_cache = []
         
     @commands.command(no_pm=True, pass_context=True)
