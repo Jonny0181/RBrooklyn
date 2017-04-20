@@ -36,6 +36,7 @@ class ModLog:
     async def status(self, ctx):
         """Shows modlog settings for the server."""
         server = ctx.message.server
+        db = fileIO(self.direct, "load")
         try:
             e = discord.Embed(title="Setting for {}".format(server.name), colour=discord.Colour.blue())
             e.add_field(name="Delete", value=str(db[ctx.message.server.id]['toggledelete']))
