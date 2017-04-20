@@ -5,7 +5,7 @@ import os
 import argparse
 
 
-default_path = "data/red/settings.json"
+default_path = "data/Brooklyn/settings.json"
 
 
 class Settings:
@@ -18,10 +18,7 @@ class Settings:
             "EMAIL": None,
             "PASSWORD": None,
             "OWNER": None,
-            "PREFIXES": [],
-            "default": {"ADMIN_ROLE": "Transistor",
-                        "MOD_ROLE": "Process",
-                        "PREFIXES": []}
+            "PREFIXES": []
                         }
         self._memory_only = False
 
