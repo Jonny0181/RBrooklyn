@@ -28,7 +28,7 @@ class ModLog:
             
     @modlogset.command(pass_context=True)
     async def status(self, ctx):
-    	"""Shows modlog settings for the server."""
+        """Shows modlog settings for the server."""
         try:
             e = discord.Embed(title="Setting for {}".format(server.name), colour=discord.Colour.blue())
             e.add_field(name="Delete", value=str(db[ctx.message.server.id]['toggledelete']))
