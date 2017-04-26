@@ -11,9 +11,7 @@ from random import choice as randchoice
 
 prefix = "b!"
 description = ''
-Shard_id = 0
-Shard_count = 2
-bot = commands.Bot(command_prefix=(prefix), description=description, shard_id=Shard_id, shard_count=Shard_count)
+bot = commands.Bot(command_prefix=(prefix), description=description)
 starttime = time.time()
 starttime2 = time.ctime(int(time.time()))
 bot.pm_help = True
