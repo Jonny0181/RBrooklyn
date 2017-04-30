@@ -11,7 +11,9 @@ from random import choice as randchoice
 
 prefix = "b!"
 description = ''
-bot = commands.Bot(command_prefix=(prefix), description=description)
+shard_id = 0
+shard_count = 2
+bot = commands.Bot(command_prefix=(prefix), description=description, shard_id=shard_id, shard_count=shard_count)
 starttime = time.time()
 starttime2 = time.ctime(int(time.time()))
 bot.pm_help = True
@@ -51,7 +53,7 @@ async def load(*, module: str):
     module = "modules." + module
     try:
         if module in modules:
-            await bot.say("Alrigt, loading {}".format(module))
+            await bot.say("Alright, loading {}".format(module))
             bot.load_extension(module)
             await bot.say("Loading finished!")
         else:
