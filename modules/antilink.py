@@ -1,14 +1,13 @@
 import discord
 from discord.ext import commands
 import os
-from .utils.dataIO import fileIO
+from utils.dataIO import fileIO
 import os
 import discord
 import asyncio
 import datetime
 import unicodedata
-from .utils import checks
-from __main__ import send_cmd_help
+from utils import checks
 from random import randint
 from random import choice as randchoice
 
@@ -27,6 +26,7 @@ class AntiLink:
         self.bot = bot
         self.link_data = "data/antilink/antilink.json"
     
+    @checks.botcom()
     @commands.group(pass_context = True, no_pm = True)
     async def antilink(self, ctx):
         channel = ctx.message.channel
@@ -115,9 +115,9 @@ class AntiLink:
         """Adds word to the blacklist
         Note: You can add mutiple words to the blacklist
         Usage:
-        =antilink adword \"This is taken as a word\" linka linkb linkc
-        =antilink addword linka linkb linkc
-        =antilink addword \"blacklisted word\""""
+        b!antilink adword \"This is taken as a word\" linka linkb linkc
+        b!antilink addword linka linkb linkc
+        b!antilink addword \"blacklisted word\""""
         server = ctx.message.server
         data = fileIO(self.link_data, "load")
         if not words:
@@ -135,9 +135,9 @@ class AntiLink:
         """Adds word to the blacklist
         Note: You can add mutiple words to the blacklist
         Usage:
-        =antilink add \"This is taken as a word\" linka linkb linkc
-        =antilink add linka linkb linkc
-        =antilink add \"blacklisted word\""""
+        b!antilink add \"This is taken as a word\" linka linkb linkc
+        b!antilink add linka linkb linkc
+        b!antilink add \"blacklisted word\""""
         server = ctx.message.server
         data = fileIO(self.link_data, "load")
         if not words:
