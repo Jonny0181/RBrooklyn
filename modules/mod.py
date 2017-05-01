@@ -1,4 +1,5 @@
 import discord
+from utils import checks
 from discord.ext import commands
 
 class Mod:
@@ -7,6 +8,7 @@ class Mod:
         self._tmp_banned_cache = []
         
     @commands.command(pass_context = True)
+    @checks.botcom()
     async def botclean(self, ctx, limit : int = None):
         """Removes all bot messages."""
         if limit is None:
@@ -15,7 +17,21 @@ class Mod:
             limit = 100
         await self.bot.purge_from(ctx.message.channel, limit=limit, before=ctx.message, check= lambda e: e.author.bot)
 
+    @commands.command(pass_context=True)
+    @checks.botcom()
+    async def hackban(self, ctx, *, user_id: str):
+        """Bans users by ID.
+        This method does not require the user to be on the server."""
+
+        server = ctx.message.server.id
+        try:
+            await self.bot.http.ban(user_id, server)
+            await self.bot.say("User banned, was <@{}>.".format(user_id))
+        except:
+            await self.bot.say("Failed to ban. Either `Lacking Permissions` or `User cannot be found`.")
+
     @commands.command(no_pm=True, pass_context=True)
+    @checks.botcom()
     async def ban(self, ctx, user: discord.Member, *, reason: str=None):
         """Bans a user from the server."""
         author = ctx.message.author
@@ -34,6 +50,7 @@ class Mod:
                 print(e)
                 
     @commands.command(no_pm=True, pass_context=True)
+    @checks.botcom()
     async def kick(self, ctx, user: discord.Member, *, reason: str=None):
         """Kicks user."""
         author = ctx.message.author
@@ -48,6 +65,7 @@ class Mod:
             print(e)
 
     @commands.group(pass_context=True)
+    @checks.botcom()
     async def prune(self, ctx, number: int):
         """Deletes messages."""
         channel = ctx.message.channel
