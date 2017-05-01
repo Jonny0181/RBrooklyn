@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
 from utils import checks
-from utils.chat_formatting import send_cmd_help
 from utils.dataIO import dataIO
 from utils.chat_formatting import *
 import random
@@ -27,6 +26,26 @@ class Autorole:
         self.settings[server.id]["ROLE"] = None
         self.settings[server.id]["AGREE_CHANNEL"] = None
         dataIO.save_json(self.file_path, self.settings)
+
+    async def send_cmd_help(self, ctx):
+        try:
+            if ctx.invoked_subcommand:
+                pages = self.formatter.format_help_for(ctx, ctx.invoked_subcommand)
+                for page in pages:
+                    await self.send_message(ctx.message.channel, embed=discord.Embed(description=page.replace("```", ""), colour=discord.Colour.blue()))
+            else:
+                pages = self.formatter.format_help_for(ctx, ctx.command)
+                for page in pages:
+                    await self.send_message(ctx.message.channel, embed=discord.Embed(description=page.replace("```", ""), colour=discord.Colour.blue()))
+        except:
+            if ctx.invoked_subcommand:
+                pages = self.formatter.format_help_for(ctx, ctx.invoked_subcommand)
+                for page in pages:
+                    await self.send_message(ctx.message.channel, page)
+            else:
+                pages = self.formatter.format_help_for(ctx, ctx.command)
+                for page in pages:
+                    await self.send_message(ctx.message.channel, page)
 
     async def on_message(self, message):
         server = message.server
