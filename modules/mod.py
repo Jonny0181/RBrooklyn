@@ -1,4 +1,5 @@
 import discord
+import asyncio
 from utils import checks
 from discord.ext import commands
 
@@ -16,6 +17,18 @@ class Mod:
         elif limit > 100:
             limit = 100
         await self.bot.purge_from(ctx.message.channel, limit=limit, before=ctx.message, check= lambda e: e.author.bot)
+
+    @commands.command(pass_context=True)
+    @checks.botcom()
+    async def unban(self, ctx, *, user_id: str):
+        """Unbans users by ID."""
+
+        server = ctx.message.server.id
+        try:
+            await self.bot.http.unban(user_id, server)
+            await self.bot.say("User unbanned, was <@{}>.".format(user_id))
+        except:
+            await self.bot.say("Failed to unban. Either `Lacking Permissions` or `User cannot be found`.")
 
     @commands.command(pass_context=True)
     @checks.botcom()
