@@ -7,7 +7,6 @@ class Mod:
         self._tmp_banned_cache = []
         
     @commands.command(pass_context = True)
-    @checks.mod_or_permissions(manage_messages=True)
     async def botclean(self, ctx, limit : int = None):
         """Removes all bot messages."""
         if limit is None:
