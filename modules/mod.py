@@ -56,10 +56,6 @@ class Mod:
         async for message in self.bot.logs_from(channel, limit=number+1):
             to_delete.append(message)
 
-        logger.info("{}({}) deleted {} messages in channel {}"
-                    "".format(author.name, author.id,
-                              number, channel.name))
-
         if is_bot:
             await self.mass_purge(to_delete)
         else:
