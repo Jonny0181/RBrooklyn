@@ -37,7 +37,18 @@ class AntiLink:
             data[server.id] = db_data
             fileIO(self.link_data, "save", data)
         if ctx.invoked_subcommand is None:
-            await send_cmd_help(ctx)
+            await self.bot.say(embed=discord.Embed(description="""b!antilink
+
+Commands:
+addword Adds word to the blacklist
+toggle Enables or Disables the Antilink
+antiinvite Enables or Disables the Antilink
+links Enables or Disables the Antilink
+status Shows antilink status
+removeword Adds word to the blacklist
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
 
     @antilink.command(pass_context=True)
     async def status(self, ctx):
