@@ -6,6 +6,16 @@ class Mod:
         self.bot = bot
         self._tmp_banned_cache = []
         
+    @commands.command(pass_context = True)
+    @checks.mod_or_permissions(manage_messages=True)
+    async def botclean(self, ctx, limit : int = None):
+        """Removes all bot messages."""
+        if limit is None:
+            limit = 100
+        elif limit > 100:
+            limit = 100
+        await self.bot.purge_from(ctx.message.channel, limit=limit, before=ctx.message, check= lambda e: e.author.bot)
+
     @commands.command(no_pm=True, pass_context=True)
     async def ban(self, ctx, user: discord.Member, *, reason: str=None):
         """Bans a user from the server."""
