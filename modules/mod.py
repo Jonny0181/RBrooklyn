@@ -39,7 +39,7 @@ class Mod:
             print(e)
 
     @commands.group(pass_context=True)
-    async def prune(self, ctx):
+    async def prune(self, ctx, number: int):
         """Deletes messages."""
         channel = ctx.message.channel
         author = ctx.message.author
