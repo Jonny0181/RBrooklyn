@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from utils import checks
-from __main__ import send_cmd_help
+from utils.chat_formatting import send_cmd_help
 from utils.dataIO import dataIO
 from utils.chat_formatting import *
 import random
