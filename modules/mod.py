@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 class Mod:
-    def __init(self, bot):
+    def __init__(self, bot):
         self.bot = bot
         self._tmp_banned_cache = []
         
