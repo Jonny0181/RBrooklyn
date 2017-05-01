@@ -1,4 +1,3 @@
-
 from discord.ext import commands
 import discord.utils
 import json
@@ -40,7 +39,7 @@ def admin_or_perm(**perms):
 
 
 
-def is_bot():
+def botcom():
     return commands.check(lambda ctx: is_bot_com(ctx.message))
 	
 def is_bot_com(message):
