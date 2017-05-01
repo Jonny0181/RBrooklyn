@@ -1,26 +1,6 @@
 def error(text):
     return "\N{NO ENTRY SIGN} {}".format(text)
 
-def send_cmd_help(self, ctx):
-    try:
-        if ctx.invoked_subcommand:
-            pages = self.formatter.format_help_for(ctx, ctx.invoked_subcommand)
-            for page in pages:
-                await self.send_message(ctx.message.channel, embed=discord.Embed(description=page.replace("```", ""), colour=discord.Colour.blue()))
-        else:
-            pages = self.formatter.format_help_for(ctx, ctx.command)
-            for page in pages:
-                await self.send_message(ctx.message.channel, embed=discord.Embed(description=page.replace("```", ""), colour=discord.Colour.blue()))
-    except:
-        if ctx.invoked_subcommand:
-            pages = self.formatter.format_help_for(ctx, ctx.invoked_subcommand)
-            for page in pages:
-                await self.send_message(ctx.message.channel, page)
-        else:
-            pages = self.formatter.format_help_for(ctx, ctx.command)
-            for page in pages:
-                await self.send_message(ctx.message.channel, page)
-
 def warning(text):
     return "\N{WARNING SIGN} {}".format(text)
 
