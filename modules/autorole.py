@@ -15,27 +15,7 @@ class Autorole:
         self.file_path = "data/autorole/settings.json"
         self.settings = dataIO.load_json(self.file_path)
         self.users = {}
-        self.messages = {}
-
-    async def send_cmd_help(self, ctx):
-        try:
-            if ctx.invoked_subcommand:
-                pages = self.formatter.format_help_for(ctx, ctx.invoked_subcommand)
-                for page in pages:
-                    await self.send_message(ctx.message.channel, embed=discord.Embed(description=page.replace("```", ""), colour=discord.Colour.blue()))
-            else:
-                pages = self.formatter.format_help_for(ctx, ctx.command)
-                for page in pages:
-                    await self.send_message(ctx.message.channel, embed=discord.Embed(description=page.replace("```", ""), colour=discord.Colour.blue()))
-        except:
-            if ctx.invoked_subcommand:
-                pages = self.formatter.format_help_for(ctx, ctx.invoked_subcommand)
-                for page in pages:
-                    await self.send_message(ctx.message.channel, page)
-            else:
-                pages = self.formatter.format_help_for(ctx, ctx.command)
-                for page in pages:
-                    await self.send_message(ctx.message.channel, page)        
+        self.messages = {}        
         
     def _get_server_from_id(self, serverid):
         return discord.utils.get(self.bot.servers, id=serverid)
@@ -132,7 +112,19 @@ class Autorole:
             dataIO.save_json(self.file_path, self.settings)
 
         if ctx.invoked_subcommand is None:
-            await send_cmd_help(ctx)
+            await self.bot.say(embed=discord.Embed(description="""b!autorole
+
+Change settings for autorole
+
+Requires the manage roles permission
+
+Commands:
+  agreement Set the channel that will be used for accepting the rules.
+  role      Set role for autorole to assign.
+  toggle    Enables/Disables autorole
+
+Type b!autorole command for more info on a command.
+You can also type b!autorole category for more info on a category."""))
             await self.bot.say("```Current autorole state: {}```".format(
                 self.settings[server.id]["ENABLED"]))
 
