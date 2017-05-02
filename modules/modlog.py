@@ -24,13 +24,43 @@ class ModLog:
         if ctx.invoked_subcommand is None:
             db = fileIO(self.direct, "load")
             server = ctx.message.server
-            await self.bot.send_cmd_help(ctx)
+            await self.bot.say(embed=discord.Embed(description="""b!modlogtoggle
+
+toggle which server activity to log
+
+Commands:
+  leave   toggles notofications when a member leaves the server.
+  join    toggles notofications when a member joins the server.
+  roles   toggle notifications when roles change
+  voice   toggle notifications when voice status change
+  delete  toggle notifications when a member delete theyre message
+  server  toggles notofications when the server updates.
+  ban     toggle notifications when a user is banned
+  edit    toggle notifications when a member edits theyre message
+  channel toggles channel update logging for the server.
+  user    toggle notifications when a user changes his profile
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
 
     @commands.group(pass_context=True, no_pm=True)
     async def modlogset(self, ctx):
         """Change modlog settings"""
         if ctx.invoked_subcommand is None:
-            await self.bot.send_cmd_help(ctx)
+            await self.bot.say(embed=discord.Embed(description="""b!modlogset
+
+Change modlog settings
+
+Commands:
+  status   Shows modlog settings for the server.
+  disable  disables the modlog
+  ignore   Sets a channel for modlog to ignore.
+  embed    Enables or disables embed modlog.
+  unignore Removes channel from ignore list
+  channel  Set the channel to send notifications too
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
             
     @modlogset.command(pass_context=True)
     async def status(self, ctx):
