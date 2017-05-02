@@ -17,16 +17,6 @@ class Autorole:
         self.users = {}
         self.messages = {}
 
-    def _get_server_from_id(self, serverid):
-        return discord.utils.get(self.bot.servers, id=serverid)
-
-    def _set_default(self, server):
-        self.settings[server.id] = {}
-        self.settings[server.id]["ENABLED"] = False
-        self.settings[server.id]["ROLE"] = None
-        self.settings[server.id]["AGREE_CHANNEL"] = None
-        dataIO.save_json(self.file_path, self.settings)
-
     async def send_cmd_help(self, ctx):
         try:
             if ctx.invoked_subcommand:
@@ -45,7 +35,17 @@ class Autorole:
             else:
                 pages = self.formatter.format_help_for(ctx, ctx.command)
                 for page in pages:
-                    await self.send_message(ctx.message.channel, page)
+                    await self.send_message(ctx.message.channel, page)        
+        
+    def _get_server_from_id(self, serverid):
+        return discord.utils.get(self.bot.servers, id=serverid)
+
+    def _set_default(self, server):
+        self.settings[server.id] = {}
+        self.settings[server.id]["ENABLED"] = False
+        self.settings[server.id]["ROLE"] = None
+        self.settings[server.id]["AGREE_CHANNEL"] = None
+        dataIO.save_json(self.file_path, self.settings)
 
     async def on_message(self, message):
         server = message.server
