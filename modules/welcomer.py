@@ -18,7 +18,24 @@ class Welcomer:
     async def welcomer(self, ctx):
         """Welcomer modules settings."""
         if ctx.invoked_subcommand is None:
-            await self.bot.send_cmd_help(ctx)
+            await self.bot.say(embed=discord.Embed(description="""b!welcomer
+
+Welcomer modules settings.
+
+Commands:
+  channel  Sets the modlog channel setting.
+  botrole  Sets the welcomer bot role setting.
+  togglel  Toggles the leave message for welcomer.
+  botrolet Toggles the bot role setting for welcomer.
+  status   Shows the servers settings for welcomer.
+  togglej  Toggles the join message for welcomer.
+  examples Shows some examples for settings.
+  disable  Disables the welcomer.
+  leavemsg Sets the welcomer leavemsg setting.
+  joinmsg  Sets welcomer joinmsg setting.
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
             
     @welcomer.command(pass_context=True)
     async def examples(self, ctx):
