@@ -11,6 +11,18 @@ class Mod:
         self._tmp_banned_cache = []
         self.settings = dataIO.load_json("data/warner/warnings.json")
         
+    def delete_mine(self,m):
+        return m.author.id == self.bot.user.id
+
+    @commands.command(pass_context=True)
+    @commands.check(check_roles)
+    async def clean(self, ctx, *, limit:int=100):
+        """Allows the bot to delete his own messages"""
+        counter = await ctx.message.channel.purge(limit = limit,check=self.delete_mine)
+        msg = await self.bot.say("```py\nCleaned up messages: {}\n```".format(len(counter)))
+        await asyncio.sleep(2)
+        await self.bot.delete_message(msg)
+
     @commands.command(pass_context=True, no_pm=True)
     @checks.botcom()
     async def warn(self, ctx, user:discord.Member, times:int=1):
@@ -194,6 +206,17 @@ class Mod:
             await self.mass_purge(to_delete)
         else:
             await self.slow_deletion(to_delete)
+
+    @prune.command(pass_context=True)
+    async def role(self,ctx,roles : discord.Role,limit : int=100):
+        """Is able to prune messages of all users who have a certain role."""
+        def delete_role(m):
+            print(m.author)
+            return roles.id in [r.id for r in m.author.roles]
+        counter =await ctx.message.channel.purge(limit=limit,check=delete_role)
+        msg = await self.bot.say("\nCleaned up messages: {} from {}!".format(len(counter),roles.name))
+        await asyncio.sleep(2)
+        await self.bot.delete_message(msg)
 
     async def mass_purge(self, messages):
         while messages:
