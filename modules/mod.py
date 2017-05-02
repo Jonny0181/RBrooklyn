@@ -18,7 +18,7 @@ class Mod:
     @checks.botcom()
     async def clean(self, ctx, *, limit:int=100):
         """Allows the bot to delete his own messages"""
-        counter = await ctx.message.channel.purge(limit = limit,check=self.delete_mine)
+        counter = await self.bot.purge_from(ctx.message.channel, limit=limit, check=self.delete_mine)
         msg = await self.bot.say("```py\nCleaned up messages: {}\n```".format(len(counter)))
         await asyncio.sleep(2)
         await self.bot.delete_message(msg)
@@ -213,7 +213,7 @@ class Mod:
         def delete_role(m):
             print(m.author)
             return roles.id in [r.id for r in m.author.roles]
-        counter =await ctx.message.channel.purge(limit=limit,check=delete_role)
+        counter = await self.bot.purge_from(ctx.message.channel, limit=limit, check=delete_role)
         msg = await self.bot.say("\nCleaned up messages: {} from {}!".format(len(counter),roles.name))
         await asyncio.sleep(2)
         await self.bot.delete_message(msg)
