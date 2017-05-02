@@ -18,15 +18,15 @@ class Tags:
         self.bot = bot
         
     @commands.group(pass_context=True, invoke_without_command=True)
-    async def tog(self, ctx, *, name:str):
+    async def tag(self, ctx, *, name:str):
         """Create tags for your server."""
         if ctx.invoked_subcommand is None:
             with open("tags.json", "r+") as f:
                 db = json.load(f)
                 try:
                     await self.bot.say(db[name])
-                    except:
-                        await self.bot.say("Sorry, I couldn't find that tag...")
+                except:
+                    await self.bot.say("Sorry, I couldn't find that tag...")
 
     @tag.command()
     @checks.botcom()
