@@ -15,7 +15,7 @@ class Mod:
         return m.author.id == self.bot.user.id
 
     @commands.command(pass_context=True)
-    @commands.check(check_roles)
+    @commands.botcom()
     async def clean(self, ctx, *, limit:int=100):
         """Allows the bot to delete his own messages"""
         counter = await ctx.message.channel.purge(limit = limit,check=self.delete_mine)
