@@ -4,6 +4,7 @@ from utils.dataIO import fileIO, dataIO
 import discord
 import asyncio
 import os
+from utils import checks
 from random import choice, randint
 
 inv_settings = {"embed": False, "Channel": None, "toggleedit": False, "toggledelete": False, "toggleuser": False, "toggleroles": False,
@@ -18,6 +19,7 @@ class ModLog:
         self.direct = "data/modlogset/settings.json"
         self.ignore_list = dataIO.load_json("data/modlogset/ignorelist.json")
 
+    @checks.botcom()
     @commands.group(name='modlogtoggle', pass_context=True, no_pm=True)
     async def modlogtoggles(self, ctx):
         """toggle which server activity to log"""
@@ -43,6 +45,7 @@ Commands:
 Type b!help command for more info on a command.
 You can also type b!help category for more info on a category."""))
 
+    @checks.botcom()
     @commands.group(pass_context=True, no_pm=True)
     async def modlogset(self, ctx):
         """Change modlog settings"""
