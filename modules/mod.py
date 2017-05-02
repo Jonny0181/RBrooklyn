@@ -211,7 +211,6 @@ class Mod:
     async def role(self,ctx,roles : discord.Role,limit : int=100):
         """Is able to prune messages of all users who have a certain role."""
         def delete_role(m):
-            print(m.author)
             return roles.id in [r.id for r in m.author.roles]
         counter = await self.bot.purge_from(ctx.message.channel, limit=limit, check=delete_role)
         msg = await self.bot.say("\nCleaned up messages: {} from {}!".format(len(counter),roles.name))
