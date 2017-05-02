@@ -132,7 +132,7 @@ class Music:
         try:
             state = self.get_voice_state(ctx.message.server)
             if state.voice is None:
-                success = await ctx.invoke(self.connect)
+                success = await ctx.invoke(self.summon)
                 if not success:
                     return
             ytdl = get_ytdl(ctx.message.server.id)
