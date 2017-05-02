@@ -47,7 +47,7 @@ class Tags:
             try:
                 db.pop(name)
                 with open("tags.json", "w") as f:
-                json.dump(db, f)
+                    json.dump(db, f)
             except:
                 await self.bot.say("Fine...")
                 
