@@ -16,7 +16,18 @@ class AntiRaid:
     async def antiraid(self, ctx):
         """Manage antiraid settings."""
         if not ctx.invoked_subcommand:
-            await self.bot.send_cmd_help(ctx)
+            await self.bot.say(embed=discord.Embed(description="""b!antiraid
+
+Manage antiraid settings.
+
+Commands:
+  setchannel Sets the channel new members should see when protected.
+  members    Shows you how much people should join within 8 seconds before th...
+  setmembers Sets after how many members join in 8 seconds the bot will prote...
+  toggle     Toggle antiraid.
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
         if not ctx.message.server.id in self.settings:
             self.settings[ctx.message.server.id] = {'joined': 0, 'channel': None, 'members': 4, 'protected': False}
             self.save_settings()
