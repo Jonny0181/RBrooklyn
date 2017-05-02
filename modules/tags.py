@@ -21,7 +21,7 @@ class Tags:
     async def tag(self, ctx, *, name:str):
         """Create tags for your server."""
         if ctx.invoked_subcommand is None:
-            with open("tags.json", "r+") as f:
+            with open("data/tags.json", "r+") as f:
                 db = json.load(f)
                 try:
                     await self.bot.say(db[name])
@@ -32,17 +32,17 @@ class Tags:
     @checks.botcom()
     async def add(self, name:str, *, content:str):
         """Add a tag for your server."""
-        with open("tags.json", "r+") as f:
+        with open("data/tags.json", "r+") as f:
             db = json.load(f)
             db[name] = content
-            with open("tags.json", "w") as f:
+            with open("data/tags.json", "w") as f:
                 json.dump(db, f)
                 await self.bot.say(":white_check_mark:")
                 
     @tag.command()
     @checks.botcom()
     async def delete(self, *, name:str):
-        with open("tags.json", "r+") as f:
+        with open("data/tags.json", "r+") as f:
             db = json.load(f)
             try:
                 db.pop(name)
