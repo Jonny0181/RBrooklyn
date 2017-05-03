@@ -8,7 +8,7 @@ import datetime
 from datetime import datetime
 import time
 import copy
-from utils.dataIO import dataIO
+from utils.dataIO import dataIO, fileIO
 from discord.ext import commands
 
 starttime = time.time()
