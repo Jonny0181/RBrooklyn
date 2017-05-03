@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from subprocess import check_output, CalledProcessError
 from utils import checks
 
 class Dev:
@@ -19,7 +20,17 @@ class Dev:
     async def pip(self, ctx):
         """Pip tools."""
         if ctx.invoked_subcommand is None:
-            await self.bot.send_cmd_help(ctx)
+            await self.bot.say(embed=discord.Embed(description="""b!pip
+
+Pip tools.
+
+Commands:
+  upgrade   Upgrade pip programs for Python 3.5
+  uninstall Uninstall pip programs for Python 3.5
+  install   Install pip programs for Python 3.5
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
             
     @pip.command()
     async def install(self, *, packagename):
