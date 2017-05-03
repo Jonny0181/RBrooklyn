@@ -322,19 +322,11 @@ You can also type b!help category for more info on a category."""))
             await self.bot.say("Nothing is playing!")
             return
         voter = ctx.message.author
-        mod_role_name = read_data_entry(ctx.message.server.id, "mod-role")
-        mod = discord.utils.get(voter.roles, name=mod_role_name)
         if voter == state.current.requester:
             await self.bot.say("Requester requested to skip the song, skipping song...")
             state.skip()
-        elif mod:
-            await self.bot.say("Server moderator requested to skip the song, skipping song...")
-            state.skip()
         elif voter == ctx.message.server.owner:
             await self.bot.say("Server owner requested to skip the song, skipping song...")
-            state.skip()
-        elif checks.is_dev_check(ctx.message.author):
-            await self.bot.say("Bot developer requested to skip the song, skipping song...")
             state.skip()
         elif voter.id not in state.skip_votes:
             votes_needed = 3
