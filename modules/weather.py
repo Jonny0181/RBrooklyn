@@ -58,40 +58,6 @@ class Weather:
         except Exception as e:
             await self.bot.say(e)
 
-    @commands.command(hidden=True, pass_context=True)
-    async def weather2(self, ctx, *, location):
-        """
-        Gives the current weather in a city.
-        """
-        g = geocoder.google(location)
-        lat, lng = g.latlng
-        key = "d3083c16e52d79b79475e9fde18bbd07"
-        link = "https://api.darksky.net/forecast/{}/{},{}".format(key, lat, lng)
-        with aiohttp.ClientSession() as sess:
-            async with sess.get(link) as how_could_you:
-                assert isinstance(how_could_you, aiohttp.ClientResponse)
-                oh_the_pain = await how_could_you.json()
-        today = oh_the_pain["daily"]["data"][0]
-        await self.bot.say("Location: {}, {}\n"
-                       "Sunrise Time: {}\n"
-                       "Sunset Time: {}\n"
-                       "Weather: {}\n"
-                       "Temperature Min (Apparent): {} Degrees ({} Degrees)\n"
-                       "Temperature Max (Apparent): {} Degrees ({} Degrees)\n".format(g.city, g.state, datetime.
-                                                                                      datetime.fromtimestamp(
-                                                                                        int(today["sunriseTime"])).
-                                                                                      strftime('%Y-%m-%d %H:%M:%S'),
-                                                                                      datetime.datetime.fromtimestamp(
-                                                                                          int(today[
-                                                                                                  "sunsetTime"])).
-                                                                                      strftime(
-                                                                                          '%Y-%m-%d %H:%M:%S'),
-                                                                                      today["summary"],
-                                                                                      today["temperatureMin"],
-                                                                                      today["apparentTemperatureMin"],
-                                                                                      today["temperatureMax"],
-                                                                                      today["apparentTemperatureMax"]))
-
     @commands.command(pass_context=True)
     async def forecast(self, ctx, zip_code: int):
         """
