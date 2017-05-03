@@ -114,7 +114,7 @@ class Music:
     async def lm(self, ctx):
         """A set of commands to play music from listen.moe"""
         # If a subcommand isn't called
-        if ctx.invoked_subcommand is None:
+        if not ctx.invoked_subcommand:
             self.bot.say(embed=discord.Embed(description="""b!lm
 
 A set of commands to play music from listen.moe
