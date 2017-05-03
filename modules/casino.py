@@ -18,7 +18,6 @@ from operator import itemgetter
 from utils.dataIO import dataIO
 from utils import checks
 from discord.ext import commands
-from __main__ import send_cmd_help
 
 # Third Party Libraries
 try:
