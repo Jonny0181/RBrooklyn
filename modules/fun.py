@@ -12,7 +12,7 @@ class Fun:
             user = user.display_name
         else:
             user = ctx.message.author.display_name
-        await ctx.send("<http://ripme.xyz/{}>".format(user.replace(" ", "%20")))
+        await self.bot.say("<http://ripme.xyz/{}>".format(user.replace(" ", "%20")))
         
 def setup(bot):
     bot.add_cog(Fun(bot))
