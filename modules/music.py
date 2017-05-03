@@ -115,9 +115,22 @@ class Music:
         """A set of commands to play music from listen.moe"""
         # If a subcommand isn't called
         if ctx.invoked_subcommand is None:
-            self.bot.say("Sorry, that's not a valid subcommand of listen.moe, try `b!help lm`.")
+            self.bot.say(embed=discord.Embed(description="""b!lm
 
-    @lm.command(name="playin", pass_context=True)
+A set of commands to play music from listen.moe
+
+Commands:
+  disconnect Leaves the voice channel and stops the stream
+  pause      Pauses the music
+  volume     Allows the user to change the volume of the bot
+  check_vol  Checks the volume for the servers voice channel that it's in
+  resume     Unpauses the music
+  playin     Has the bot join a voice channel and also starts the stream from...
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
+
+    @lm.command(name="start", pass_context=True)
     async def join_vc_and_play_stream(self, ctx, *, channel: discord.Channel = None):
         """Has the bot join a voice channel and also starts the stream from listen.moe"""
         try:
@@ -125,12 +138,6 @@ class Music:
             if channel is None:
                 # Set it to the voice channel for the member who triggers the command
                 channel = ctx.message.author.voice.voice_channel
-                # Check if again None (If the command user isn't in a voice channel)
-                if channel is None:
-                    # Tell the user they actually need to tell us what channel they want Pixie to join
-                    await self.bot.say("```xl\nSorry, I'm not too sure what channel you want me to join unless you tell me!```")
-                    # Exit out of the function so we don't try joining None
-                    return
             # Get the VoiceClient object
             voice_client = await self.bot.join_voice_channel(channel)
             # Set it to stereo and set sample rate to 48000
@@ -142,7 +149,7 @@ class Music:
             # Start the player
             player.start()
             # Be a tsun while telling the user that you joined the channel
-            await self.bot.say("```xl\nI-I didn't join {0.channel} because you told me to... you b-b-baka! *hmph*```".format(voice_client))
+            await self.bot.say("```xl\nI-I didn't join {0.channel} because you told me to...```".format(voice_client))
             # Add to the dict of server ids linked to objects
             self.players.update({ctx.message.server.id: player})
         # Here we account for our bot not having enough perms or for the bot region being a bit dodgy
