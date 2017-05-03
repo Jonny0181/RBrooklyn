@@ -450,7 +450,7 @@ class Casino:
         """Casino Group Commands"""
 
         if ctx.invoked_subcommand is None:
-            await self.bot.say(embed=discord.Embed(description="""!casino
+            await self.bot.say(embed=discord.Embed(description="""b!casino
 
 Casino Group Commands
 
@@ -466,8 +466,8 @@ Commands:
   stats            Shows your casino play stats
   transfer         Transfers chips to another player
 
-Type !help command for more info on a command.
-You can also type !help category for more info on a category."""))
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
 
     @casino.command(name="purge", pass_context=True)
     @checks.is_owner()
@@ -1511,7 +1511,31 @@ You can also type !help category for more info on a category."""))
     async def setcasino(self, ctx):
         """Configures Casino Options"""
         if ctx.invoked_subcommand is None:
-            await send_cmd_help(ctx)
+            await self.bot.say(embed=discord.Embed(description="""b!setcasino
+
+Configures Casino Options
+
+Commands:
+  transferlimit   This is the limit of chips a player can transfer at one time.
+  min             Set the minimum bet to play a game
+  reqadd          Add a requirement to a membership
+  cooldown        Set the cooldown period for casino games
+  payday          Set the default payday amount with no membership
+  chipname        Sets the name of your Casino chips.
+  name            Sets the name of the Casino.
+  exchange        Sets the exchange rate for chips or credits
+  threshold       Players that exceed this amount require an admin to approve...
+  paydaytimer     Set the cooldown on payday
+  access          Set the access level for a game. Default is 0. Used with me...
+  multiplier      Sets the payout multiplier for casino games
+  transfercd      Set the cooldown for transferring chips.
+  max             Set the maximum bet to play a game
+  thresholdtoggle Turns on a chip win limit
+  balance         Sets a Casino member's chip balance
+  reqremove       Remove a requirement to a membership
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
 
     @setcasino.command(name="transferlimit", pass_context=True)
     @checks.botcom()
