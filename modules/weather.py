@@ -1,6 +1,7 @@
 import os
 import discord
 import aiohttp
+import geocoder
 from discord.ext import commands
 
 
