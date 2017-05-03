@@ -9,6 +9,7 @@ import copy
 from utils.dataIO import dataIO
 from discord.ext import commands
 
+DB_VERSION = 2
 starttime = time.time()
 
 class Info:
