@@ -5,7 +5,7 @@ class Fun:
     def __init__(self, bot):
         self.bot = bot
         
-    @commands.command()
+    @commands.command(pass_context=True)
     async def rip(self, ctx, user: discord.User = None):
         """Rest in peace m8."""
         if user is not None:
