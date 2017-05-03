@@ -403,14 +403,13 @@ class Info:
         
     async def on_message(self, message):
         if not message.channel.is_private and self.bot.user.id != message.author.id:
-            if not any(message.content.startswith(n) for n in self.bot.settings.prefixes):
-                server = message.server
-                author = message.author
-                ts = message.timestamp.timestamp()
-                data = {}
-                data['TIMESTAMP'] = ts
-                if server.id not in self.seen:
-                    self.seen[server.id] = {}
+            server = message.server
+            author = message.author
+            ts = message.timestamp.timestamp()
+            data = {}
+            data['TIMESTAMP'] = ts
+            if server.id not in self.seen:
+                self.seen[server.id] = {}
                 self.seen[server.id][author.id] = data
                 self.new_data = True
 
