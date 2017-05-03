@@ -35,7 +35,7 @@ class Info:
         timestamp_now = context.message.timestamp
         if True if author.id in self.seen[server.id] else False if server.id in self.seen else False:
             data = self.seen[server.id][author.id]
-            timestamp_then = datetime.fromtimestamp(data['TIMESTAMP'])
+            timestamp_then = datetime.datetime(data['TIMESTAMP'])
             timestamp = timestamp_now - timestamp_then
             days = timestamp.days
             seconds = timestamp.seconds
