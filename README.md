@@ -25,3 +25,6 @@ If you can follow at least 2 of these guidelines and you can prove it, you maybe
 - Help expand Brooklyn, such as server wise and reputation.
 - If you are a coder and know python, you can make a pull request with features you would like to be implemented into Brooklyn. (Code will be reviewed before push to core.)
 - If any of you guys can think of other ways you can contribute please dm me your ideas or mention me in #main.
+
+
+<iframe src="https://discordapp.com/widget?id=236311632198762496&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>
