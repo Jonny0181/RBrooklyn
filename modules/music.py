@@ -9,6 +9,7 @@ from discord.ext import commands
 from discord.ext import commands
 from discord.opus import OpusNotLoaded
 
+py = "```py\n{}\n```"
 ytdl_format_options = {"format": "bestaudio/best", "extractaudio": True, "audioformat": "mp3", "noplaylist": True, "nocheckcertificate": True, "ignoreerrors": False, "logtostderr": False, "quiet": True, "no_warnings": True, "default_search": "auto", "source_address": "0.0.0.0", "preferredcodec": "libmp3lame"}
 
 def get_ytdl(id):
