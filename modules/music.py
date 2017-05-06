@@ -1,5 +1,6 @@
 import asyncio
 import traceback
+import aiohttp
 import youtube_dl
 import os
 import subprocess
@@ -110,6 +111,38 @@ class Music:
     def clear_cache(self):
         # This is here because I can't call clear_data() from the main class for obvious reasons
         clear_data()
+
+    async def _api_request(self, payload):
+        url = 'https://api.spotify.com/v1/search'
+        headers = {'user-agent': 'Red-cog/1.0'}
+        conn = aiohttp.TCPConnector()
+        session = aiohttp.ClientSession(connector=conn)
+        async with session.get(url, params=payload, headers=headers) as r:
+            data = await r.json()
+        session.close()
+        return data
+
+    @commands.command(pass_context=True, name='spotify')
+    async def _spotify(self, context, *, query: str):
+        """Search for a song on Spotify
+        """
+        payload = {}
+        payload['q'] = ''.join(query)
+        payload['type'] = 'track'
+        payload['limit'] = '1'
+        r = await self._api_request(payload)
+        if r['tracks']['total'] > 0:
+            items = r['tracks']['items']
+            item = items[0]
+            track = item['name']
+            artist = item['artists'][0]['name']
+            url = item['external_urls']['spotify']
+            image = item['album']['images'][0]['url']
+            em = discord.Embed(title='{} - {}'.format(artist, track), url=url)
+            em.set_image(url=image)
+            await self.bot.say(embed=em)
+        else:
+            await self.bot.say('**I\'m sorry, but I couldn\'t find anything for {}.**'.format(''.join(query)))
 
     @commands.group(pass_context=True)
     async def lm(self, ctx):
