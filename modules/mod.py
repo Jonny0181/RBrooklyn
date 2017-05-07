@@ -45,7 +45,7 @@ class Mod:
     def delete_mine(self,m):
         return m.author.id == self.bot.user.id
     def delete_commands(self, message):
-        return message.content.starts_with == "b!"
+        return message.content.startswith(bot.command_prefix)
 
     @commands.command(pass_context=True)
     async def clean(self, ctx, *, limit:int=100):
