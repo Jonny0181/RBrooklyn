@@ -269,9 +269,7 @@ You can also type b!help category for more info on a category."""))
                 state.voice = await self.bot.join_voice_channel(ctx.message.author.voice_channel)
                 await self.bot.server_voice_state(ctx.message.server.me, deafen=True)
             except:
-                await ctx.invoke(self.disconnect)
-                await self.bot.say(":x: An error occured! Please give me the correct permissions to server deafen myself, then run {}summon again.".format(self.bot.command_prefix))
-                return False
+                await self.bot.say(":x: An error occured! Please give me the correct permissions to server deafen myself.".format(self.bot.command_prefix))
         else:
             await state.voice.move_to(ctx.message.author.voice_channel)
         return True
