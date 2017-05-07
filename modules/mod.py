@@ -44,12 +44,21 @@ class Mod:
 
     def delete_mine(self,m):
         return m.author.id == self.bot.user.id
+    def delete_commands(self, message):
+        return message.content.starts_with == "b!"
 
     @commands.command(pass_context=True)
-    @checks.botcom()
     async def clean(self, ctx, *, limit:int=100):
         """Allows the bot to delete his own messages"""
-        counter = await self.bot.purge_from(ctx.message.channel, limit=limit, check=self.delete_mine)
+        try:
+            counter1 = await self.bot.purge_from(ctx.message.channel, limit=limit, check=self.delete_mine)
+        else:
+            await self.bot.say(":x: An error occured! I cannot delete my own messages for some fuckign stupid reason.")
+        try:
+            counter2 = await self.bot.purge_from(ctx.message.channel, limit=limit, check=self.delete_commands)
+        else:
+            await self.bot.say(":x: An error accured! I cannot manage messages, therefor I cannot delete command messages!") 
+        counter = counter1 + counter2
         msg = await self.bot.say("```py\nCleaned up messages: {}\n```".format(len(counter)))
         await asyncio.sleep(2)
         await self.bot.delete_message(msg)
