@@ -22,7 +22,7 @@ class Dev:
         except:
             color = 0x585858
         if author.id == self.bot.user.id:
-            embed=discord.Embed(description=message.content, color=color)
+            embed=discord.Embed(description=message.content.replace("```", ""), color=color)
             await self.bot.edit_message(message, new_content=" ", embed=embed)
 
     @commands.group(pass_context=True)
