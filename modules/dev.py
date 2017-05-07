@@ -15,6 +15,16 @@ class Dev:
         await self.bot.edit_profile(avatar=avatar)
         await self.bot.say("Changed avatar.")
 
+    async def on_message(self, message):
+        author = message.author
+        try:
+            color = author.color
+        except:
+            color = 0x585858
+        if author.id == self.bot.user.id:
+            embed=discord.Embed(description=message.content, color=color)
+            await self.bot.edit_message(message, new_content=" ", embed=embed)
+
     @commands.group(pass_context=True)
     @checks.is_owner()
     async def pip(self, ctx):
