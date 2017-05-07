@@ -52,11 +52,11 @@ class Mod:
         """Allows the bot to delete his own messages"""
         try:
             counter1 = await self.bot.purge_from(ctx.message.channel, limit=limit, check=self.delete_mine)
-        else:
+        except:
             await self.bot.say(":x: An error occured! I cannot delete my own messages for some fuckign stupid reason.")
         try:
             counter2 = await self.bot.purge_from(ctx.message.channel, limit=limit, check=self.delete_commands)
-        else:
+        except:
             await self.bot.say(":x: An error accured! I cannot manage messages, therefor I cannot delete command messages!") 
         counter = counter1 + counter2
         msg = await self.bot.say("```py\nCleaned up messages: {}\n```".format(len(counter)))
