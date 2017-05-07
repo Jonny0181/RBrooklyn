@@ -107,7 +107,7 @@ class Info:
         data = discord.Embed(description="Showing stats for {}.".format(self.bot.user.name), colour=discord.Colour.red())
         data.add_field(name="Owner", value="<@146040787891781632>")
         data.add_field(name="Ping", value="{}ms".format(round((t2-t1)*1000)))
-        data.add_field(name="Shard ID", value=str(elf.bot.shard_id + 1))
+        data.add_field(name="Shard ID", value=str(self.bot.shard_id + 1))
         data.add_field(name="Shard Count", value=self.bot.shard_count)
         data.add_field(name="Servers", value=len(self.bot.servers))
         data.add_field(name="Api version", value=discord.__version__)
