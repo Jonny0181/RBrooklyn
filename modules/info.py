@@ -31,6 +31,18 @@ class Info:
             else:
                 await asyncio.sleep(30)
 
+    @commands.command(pass_context=True)
+    async def invite(self, ctx):
+        if not ctx.message.channel.is_private:
+            await self.bot.reply("I have sent you my invite link in dm's! :mailbox_with_mail:")
+        await self.bot.whisper("""**Hello there I see you have requested my invite link!**
+
+**Here is my invite link:**
+<https://discordapp.com/oauth2/authorize?client_id=226132382846156800&scope=bot&permissions=401697975>
+
+**If you come across any problems or would like to receive updates on Brooklyn you may join this server!**
+https://discord.gg/fmuvSX9""")
+
     @commands.command(pass_context=True, no_pm=True, name='seen')
     async def _seen(self, context, username: discord.Member):
         '''seen <@username>'''
