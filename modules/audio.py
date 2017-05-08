@@ -449,7 +449,6 @@ class BetterAudio:
             self.skip_votes[ctx.message.server.id].remove(ctx.message.author)
             await self.bot.say("Vote to skip unregistered.")
 
-    @checks.botcom()
     @commands.command(pass_context=True, no_pm=True)
     async def stop(self, ctx):
         """Be warned, this clears the queue and stops playback."""
@@ -461,7 +460,6 @@ class BetterAudio:
             self.players[ctx.message.server.id].stop()
         await self.bot.say("Playback stopped.")
 
-    @checks.botcom()
     @commands.command(pass_context=True, no_pm=True)
     async def shuffle(self, ctx):
         """Shuffles the queue."""
@@ -471,7 +469,6 @@ class BetterAudio:
         self.save_db()
         await self.bot.say("Queue shuffled.")
 
-    @checks.botcom()
     @commands.command(pass_context=True, no_pm=True)
     async def forceskip(self, ctx):
         """Skips the current song."""
@@ -482,7 +479,6 @@ class BetterAudio:
             self.save_db()
             await self.bot.say("Song skipped. Blame {0}.".format(ctx.message.author.mention))
 
-    @checks.botcom()
     @commands.command(pass_context=True, no_pm=True)
     async def disconnect(self, ctx):
         """Disconnects the bot from the server."""
@@ -503,7 +499,6 @@ class BetterAudio:
         """Sets configuration settings."""
         await send_cmd_help(ctx)
 
-    @checks.botcom()
     @audioset_cmd.command(pass_context=True, no_pm=True)
     async def volume(self, ctx, volume: int):
         """Sets the audio volume for this server."""
@@ -527,7 +522,6 @@ class BetterAudio:
         else:
             await self.bot.say("Try a threshold between 0 and 100.")
 
-    @checks.botcom()
     @audioset_cmd.command(pass_context=True, no_pm=True)
     async def repeat(self, ctx):
         """Toggles repeat mode for the current server."""
