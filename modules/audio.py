@@ -10,9 +10,9 @@ import logging
 # noinspection PyUnresolvedReferences
 from __main__ import send_cmd_help
 from discord.ext import commands
-from cogs.utils import checks
-from cogs.utils.dataIO import dataIO
-from cogs.utils import chat_formatting
+from utils import checks
+from utils.dataIO import dataIO
+from utils import chat_formatting
 try:   # Check if Mutagen is installed
     from mutagen.mp3 import MP3
     from mutagen.flac import FLAC
