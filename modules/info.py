@@ -40,6 +40,9 @@ class Info:
 **Here is my invite link:**
 <https://discordapp.com/oauth2/authorize?client_id=226132382846156800&scope=bot&permissions=401697975>
 
+**If you would like to help contribute to Brooklyn you may here:**
+<https://www.patreon.com/_brooklyn>
+
 **If you come across any problems or would like to receive updates on Brooklyn you may join this server!**
 https://discord.gg/fmuvSX9""")
 
