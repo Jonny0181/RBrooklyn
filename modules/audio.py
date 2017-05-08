@@ -449,7 +449,7 @@ class BetterAudio:
             self.skip_votes[ctx.message.server.id].remove(ctx.message.author)
             await self.bot.say("Vote to skip unregistered.")
 
-    @checks.mod_or_permissions(move_members=True)
+    @checks.botcom()
     @commands.command(pass_context=True, no_pm=True)
     async def stop(self, ctx):
         """Be warned, this clears the queue and stops playback."""
@@ -461,7 +461,7 @@ class BetterAudio:
             self.players[ctx.message.server.id].stop()
         await self.bot.say("Playback stopped.")
 
-    @checks.mod_or_permissions(move_members=True)
+    @checks.botcom()
     @commands.command(pass_context=True, no_pm=True)
     async def shuffle(self, ctx):
         """Shuffles the queue."""
@@ -471,7 +471,7 @@ class BetterAudio:
         self.save_db()
         await self.bot.say("Queue shuffled.")
 
-    @checks.mod_or_permissions(move_members=True)
+    @checks.botcom()
     @commands.command(pass_context=True, no_pm=True)
     async def forceskip(self, ctx):
         """Skips the current song."""
@@ -482,7 +482,7 @@ class BetterAudio:
             self.save_db()
             await self.bot.say("Song skipped. Blame {0}.".format(ctx.message.author.mention))
 
-    @checks.mod_or_permissions(move_members=True)
+    @checks.botcom()
     @commands.command(pass_context=True, no_pm=True)
     async def disconnect(self, ctx):
         """Disconnects the bot from the server."""
@@ -498,17 +498,12 @@ class BetterAudio:
             await self.voice_clients[ctx.message.server.id].disconnect()
             await self.bot.say("Disconnected.")
 
-    @commands.command()
-    async def audio_source(self):
-        """Where the source code for this audio cog can be found."""
-        await self.bot.say("https://github.com/Pandentia/Red-Cogs/")
-
     @commands.group(name="audioset", pass_context=True, invoke_without_command=True)
     async def audioset_cmd(self, ctx):
         """Sets configuration settings."""
         await send_cmd_help(ctx)
 
-    @checks.mod_or_permissions(move_members=True)
+    @checks.botcom()
     @audioset_cmd.command(pass_context=True, no_pm=True)
     async def volume(self, ctx, volume: int):
         """Sets the audio volume for this server."""
@@ -520,7 +515,7 @@ class BetterAudio:
         else:
             await self.bot.say("Try a volume between 0 and 200%.")
 
-    @checks.mod_or_permissions(move_members=True)
+    @checks.botcom()
     @audioset_cmd.command(pass_context=True, no_pm=True)
     async def vote_ratio(self, ctx, percentage: int):
         """Sets the vote ratio required to skip a song."""
@@ -532,7 +527,7 @@ class BetterAudio:
         else:
             await self.bot.say("Try a threshold between 0 and 100.")
 
-    @checks.mod_or_permissions(move_members=True)
+    @checks.botcom()
     @audioset_cmd.command(pass_context=True, no_pm=True)
     async def repeat(self, ctx):
         """Toggles repeat mode for the current server."""
@@ -558,7 +553,7 @@ class BetterAudio:
             self.save_db()
             await self.bot.say("Playing messages enabled.")
 
-    @checks.is_owner()
+    @checks.botcom()
     @audioset_cmd.command(pass_context=True)
     async def notify(self, ctx):
         """Send a message to the channel when the song changes."""
@@ -571,7 +566,7 @@ class BetterAudio:
             await self.bot.say("No longer notifying when a new track plays.")
         self.save_db()
 
-    @checks.is_owner()
+    @checks.botcom()
     @audioset_cmd.command(pass_context=True)
     async def notify_channel(self, ctx, channel:str=None):
         """Send a message to the channel when the song changes."""
@@ -585,7 +580,6 @@ class BetterAudio:
             await self.bot.say("Make sure to turn on notifications.")
         self.save_db()
 
-    @checks.is_owner()
     @commands.group(name="playlist", pass_context=True, invoke_without_command=True)
     async def playlisted(self, ctx):
         """General playlist commands"""
