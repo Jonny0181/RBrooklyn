@@ -510,7 +510,7 @@ class BetterAudio:
         else:
             await self.bot.say("Try a volume between 0 and 200%.")
 
-    @checks.botcom()
+
     @audioset_cmd.command(pass_context=True, no_pm=True)
     async def vote_ratio(self, ctx, percentage: int):
         """Sets the vote ratio required to skip a song."""
@@ -547,7 +547,6 @@ class BetterAudio:
             self.save_db()
             await self.bot.say("Playing messages enabled.")
 
-    @checks.botcom()
     @audioset_cmd.command(pass_context=True)
     async def notify(self, ctx):
         """Send a message to the channel when the song changes."""
@@ -560,7 +559,6 @@ class BetterAudio:
             await self.bot.say("No longer notifying when a new track plays.")
         self.save_db()
 
-    @checks.botcom()
     @audioset_cmd.command(pass_context=True)
     async def notify_channel(self, ctx, channel:str=None):
         """Send a message to the channel when the song changes."""
