@@ -16,5 +16,5 @@ class Joinmsg:
         e.set_footer(text="Currently on shard {} with {} users and {} servers!".format(shard, users, servers))
         await self.bot.send_message(server, embed=e)
         
-def setup(bot)
+def setup(bot):
     bot.add_cog(Joinmsg(bot))
