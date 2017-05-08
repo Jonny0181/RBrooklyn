@@ -8,7 +8,6 @@ import shutil
 import youtube_dl
 import logging
 # noinspection PyUnresolvedReferences
-from __main__ import send_cmd_help
 from discord.ext import commands
 from utils import checks
 from utils.dataIO import dataIO
