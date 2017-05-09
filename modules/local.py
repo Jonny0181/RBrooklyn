@@ -21,7 +21,7 @@ class Local:
     def __init__(self, bot):
         self.bot = bot
         self.queue = {}
-        self.local_playlist_path = "data/audio/localtracks"
+        self.local_playlist_path = "data/audio/local"
 
     def voice_connected(self, server):
         if self.bot.is_voice_connected(server):
@@ -163,15 +163,7 @@ class Local:
                 await self.bot.say(page)
         else:
             await self.bot.say("There are no playlists.")
-
-def check_folders():
-    folders = ("data/audio/localtracks")
-    for folder in folders:
-        if not os.path.exists(folder):
-            print("Creating " + folder + " folder...")
-            os.makedirs(folder)
             
 def setup(bot):
-    check_folders()
     n = Local(bot)
     bot.add_cog(n)
