@@ -95,6 +95,11 @@ class Music:
         self.players = {}
         self.default_vol = 100
 
+    @staticmethod
+    def get_url_info(url):
+        with youtube_dl.YoutubeDL({}) as yt:
+            return yt.extract_info(url, download=False, process=False)
+
     def get_voice_state(self, server:discord.Server):
         voice_state = self.voice_states.get(server.id)
         if voice_state is None:
@@ -274,6 +279,53 @@ You can also type b!help category for more info on a category."""))
             await state.voice.move_to(ctx.message.author.voice_channel)
         return True
 
+    @commands.command(pass_context=True)
+    async def playp(self, ctx, url):
+        """Allows you to play a playlist."""
+        if ctx.message.author.voice_channel is None:
+            await self.bot.say("You need to be in a voice channel.")
+            return
+        info = self.get_url_info(url)  # probably the best URL matching that's out there
+        try:  # for bit.ly URLs, etc...
+            if info["extractor"] == "generic":
+                info = self.get_url_info(info["url"])
+        except KeyError:
+                pass
+        except DownloadError:
+            await self.bot.say("That URL is unsupported right now.")
+            return
+        if info["extractor"] in ["soundcloud:set", "youtube:playlist"]:
+            await self.bot.say("Adding a playlist, this may take a while...")
+            placeholder_msg = await self.bot.say("​")
+            playlist = [x for x in info["entries"]]
+            added = 0
+            total = len(playlist)
+            length = playlist_length
+            urls = []
+            for i in playlist:
+                if length != 0:
+                    urls.append(i["url"])
+                    length -= 1
+            for url in urls:
+                # noinspection PyBroadException
+                try:
+                    info = self.get_url_info(url)
+                    title = info["title"]
+                    author = info["uploader"]
+                    assembled_queue = {"url": url, "song_owner": ctx.message.author.id,
+                                       "title": title, "author": author}
+                    self.db[ctx.message.server.id]["queue"].append(assembled_queue)
+                    added += 1
+                    placeholder_msg = await self.bot.edit_message(placeholder_msg,
+                                                                  "Successfully added {1} - {0} to the queue!\n"
+                                                                  "({2}/{3})"
+                                                                  .format(title, author, added, total))
+                    await asyncio.sleep(1)
+                except:
+                    await self.bot.say("Unable to add <{0}> to the queue. Skipping.".format(url))
+            self.save_db()
+            await self.bot.say("Added {0} tracks to the queue.".format(added))
+    
     @commands.command(pass_context=True)
     async def play(self, ctx, *, song:str):
         """Plays a song, searches youtube or gets video from youtube url"""
