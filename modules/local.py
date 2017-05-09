@@ -110,7 +110,16 @@ class Local:
     async def local(self, ctx):
         """Local playlists commands"""
         if ctx.invoked_subcommand is None:
-            await send_cmd_help(ctx)
+            await self.bot.say(embed=discord.Embed(description="""b!local
+
+Local playlists commands
+
+Commands:
+  list  Lists local playlists
+  start Plays a local playlist
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
             
     @local.command(name="start", pass_context=True, no_pm=True)
     async def play_local(self, ctx, *, name):
