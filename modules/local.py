@@ -28,6 +28,14 @@ class Local:
             return True
         return False
 
+    def _list_local_playlists(self):
+        ret = []
+        for thing in os.listdir(self.local_playlist_path):
+            if os.path.isdir(os.path.join(self.local_playlist_path, thing)):
+                ret.append(thing)
+        log.debug("local playlists:\n\t{}".format(ret))
+        return ret
+
     def has_connect_perm(self, author, server):
         channel = author.voice_channel
 
