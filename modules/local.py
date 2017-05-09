@@ -2,6 +2,9 @@ import discord
 from discord.ext import commands
 import os
 
+class NotConnected(Exception):
+    pass
+
 class AuthorNotConnected(NotConnected):
     pass
 
