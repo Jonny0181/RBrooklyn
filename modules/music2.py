@@ -1058,8 +1058,20 @@ class Audio:
     async def audioset(self, ctx):
         """Audio settings."""
         if ctx.invoked_subcommand is None:
-            await send_cmd_help(ctx)
-            return
+            await self.bot.say(embed=discord.Embed(description="""b!audioset
+
+Audio settings.
+
+Commands:
+  cachemax        Set the max cache size in MB
+  status          Enables/disables songs' titles as status
+  vote            Percentage needed for the masses to skip songs. 0 to disable.
+  maxlength       Maximum track length (seconds) for requested links
+  emptydisconnect Toggles auto disconnection when everyone leaves the channel
+  player          Toggles between Ffmpeg and Avconv
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
 
     @audioset.command(name="cachemax")
     @checks.is_owner()
@@ -1117,7 +1129,17 @@ class Audio:
             data[server.id] = db_data
             fileIO(self.ban_list, "save", data)
         if ctx.invoked_subcommand is None:
-            await send_cmd_help(ctx)
+            await self.bot.say(embed=discord.Embed(description="""b!audioban
+
+Bans song from being played in your server. :ok_hand:
+
+Commands:
+  status Shows audioban settings and status.
+  remove Remove a ban from the list.
+  add    Add a name or link to banlist.
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
             
     @audioban.command(pass_context=True)
     async def status(self, ctx):
@@ -1259,7 +1281,17 @@ class Audio:
     async def cache(self, ctx):
         """Cache management tools."""
         if ctx.invoked_subcommand is None:
-            await send_cmd_help(ctx)
+            await self.bot.say(embed=discord.Embed(description="""b!cache
+
+Cache management tools.
+
+Commands:
+  size    Current size of the cache.
+  dump    Dumps the cache.
+  minimum Current minimum cache size, based on server count.
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
             return
 
     @cache.command(name="dump")
@@ -1305,7 +1337,15 @@ class Audio:
     async def local(self, ctx):
         """Local playlists commands"""
         if ctx.invoked_subcommand is None:
-            await send_cmd_help(ctx)
+            await self.bot.say(embed=discord.Embed(description="""b!local
+
+Local playlists commands
+
+Commands:
+  list Lists local playlists
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
 
     @local.command(name="start", pass_context=True, no_pm=True, hidden = True)
     async def play_local(self, ctx, *, name):
@@ -1579,7 +1619,22 @@ class Audio:
     async def playlist(self, ctx):
         """Playlist management/control."""
         if ctx.invoked_subcommand is None:
-            await send_cmd_help(ctx)
+            await self.bot.say(embed=discord.Embed(description="""b!playlist
+
+Playlist management/control.
+
+Commands:
+  start  Plays a playlist.
+  create Creates an empty playlist
+  remove Deletes a saved playlist.
+  queue  Adds a song to the playlist loop.
+  mix    Plays and mixes a playlist.
+  list   Lists all available playlists
+  add    Add a YouTube or Soundcloud playlist.
+  append Appends to a playlist.
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
 
     @playlist.command(pass_context=True, no_pm=True, name="create")
     async def playlist_create(self, ctx, name):
