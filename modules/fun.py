@@ -19,11 +19,11 @@ class Fun:
     async def bomb(self, ctx, user : discord.User = None):
         """Allahu Akbar!"""
         if user is not None:
-            user = user.display_name
+            user = user.mention
             msg = ":boom: {} has suicide bombed {}".format(ctx.message.author.display_name, user)
         else:
-            user = ctx.message.author.display_name
-            msg = ":boom: {} has commited suicide on a public bus!"
+            user = ctx.message.author.mention
+            msg = ":boom: {} has commited suicide on a public bus!".format(user)
         ok = await self.bot.say(":bomb:")
         await asyncio.sleep(2)
         await self.bot.edit_message(ok, msg)
