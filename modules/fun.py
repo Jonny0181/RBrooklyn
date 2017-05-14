@@ -1,4 +1,5 @@
 import discord
+import asyncio
 from discord.ext import commands
 
 class Fun:
@@ -13,6 +14,19 @@ class Fun:
         else:
             user = ctx.message.author.display_name
         await self.bot.say("<http://ripme.xyz/{}>".format(user.replace(" ", "%20")))
+
+    @commands.command(pass_context=True)
+    async def bomb(self, ctx, user : discord.User = None):
+        """Allahu Akbar!"""
+        if user is not None:
+            user = user.display_name
+            msg = ":boom: {} has suicide bombed {}".format(ctx.message.author.display_name, user)
+        else:
+            user = ctx.message.author.display_name
+            msg = ":boom: {} has commited suicide on a public bus!"
+        ok = await self.bot.say(":bomb:")
+        await asyncio.sleep(2)
+        await self.bot.edit_message(ok, msg)
         
 def setup(bot):
     bot.add_cog(Fun(bot))
