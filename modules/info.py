@@ -10,6 +10,8 @@ import time
 import copy
 from utils.dataIO import dataIO, fileIO
 from discord.ext import commands
+from random import choice, randit
+from utils.chat_formatting import pagify, box
 
 starttime = time.time()
 DB_VERSION = 2
@@ -45,6 +47,63 @@ class Info:
 
 **If you come across any problems or would like to receive updates on Brooklyn you may join this server!**
 https://discord.gg/fmuvSX9""")
+
+    @commands.command(pass_context=True, no_pm=True)
+    async def channelinfo(self, ctx, *, channel: discord.Channel=None):
+        """Shows channel informations"""
+        author = ctx.message.channel
+        server = ctx.message.server
+
+        if not channel:
+            channel = author
+
+        userlist = [r.display_name for r in channel.voice_members]
+        if not userlist:
+            userlist = None
+        else:
+            userlist = "\n".join(userlist)
+
+        passed = (ctx.message.timestamp - channel.created_at).days
+        created_at = ("Created on {} ({} days ago!)"
+                      "".format(channel.created_at.strftime("%d %b %Y %H:%M"),
+                                passed))
+
+        randnum = randint(1, 10)
+        empty = u"\u2063"
+        emptyrand = empty * randnum
+
+        colour = ''.join([choice('0123456789ABCDEF') for x in range(6)])
+        colour = int(colour, 16)
+
+        data = discord.Embed(description="Channel ID: " +
+                             channel.id, colour=discord.Colour(value=colour))
+        if "{}".format(channel.is_default) == "True":
+            data.add_field(name="Default Channel", value="Yes")
+        else:
+            data.add_field(name="Default Channel", value="No")
+        data.add_field(name="Type", value=channel.type)
+        data.add_field(name="Position", value=channel.position)
+        if "{}".format(channel.type) == "voice":
+            if channel.user_limit != 0:
+                data.add_field(
+                    name="User Number", value="{}/{}".format(len(channel.voice_members), channel.user_limit))
+            else:
+                data.add_field(name="User Number", value="{}".format(
+                    len(channel.voice_members)))
+            data.add_field(name="Users", value=userlist)
+            data.add_field(name="Bitrate", value=channel.bitrate)
+        elif "{}".format(channel.type) == "text":
+            if channel.topic != "":
+                data.add_field(name="Topic", value=channel.topic, inline=False)
+
+        data.set_footer(text=created_at)
+        data.set_author(name=channel.name)
+
+        try:
+            await self.bot.say(emptyrand, embed=data)
+        except:
+            await self.bot.say("I need the `Embed links` permission "
+                               "to send this")
 
     @commands.command(pass_context=True, no_pm=True, name='seen')
     async def _seen(self, context, username: discord.Member):
@@ -107,10 +166,10 @@ https://discord.gg/fmuvSX9""")
         mem_v = psutil.virtual_memory()
         cpu_p = psutil.cpu_percent(interval=None, percpu=True)
         cpu_usage = sum(cpu_p)/len(cpu_p)
-        online = len([e.name for e in self.bot.get_all_members() if not e.bot and e.status == discord.Status.online])
-        idle = len([e.name for e in self.bot.get_all_members() if not e.bot and e.status == discord.Status.idle])
-        dnd = len([e.name for e in self.bot.get_all_members() if not e.bot and e.status == discord.Status.dnd])
-        offline = len([e.name for e in self.bot.get_all_members() if not e.bot and e.status == discord.Status.offline])
+        online = [e.name for e in self.bot.get_all_members() if not e.bot and e.status == discord.Status.online]
+        idle = [e.name for e in self.bot.get_all_members() if not e.bot and e.status == discord.Status.idle]
+        dnd = [e.name for e in self.bot.get_all_members() if not e.bot and e.status == discord.Status.dnd]
+        offline = [e.name for e in self.bot.get_all_members() if not e.bot and e.status == discord.Status.offline]
         seconds = time.time() - starttime
         m, s = divmod(seconds, 60)
         h, m = divmod(m, 60)
@@ -126,8 +185,8 @@ https://discord.gg/fmuvSX9""")
         data.add_field(name="Shard Count", value=self.bot.shard_count)
         data.add_field(name="Servers", value=len(self.bot.servers))
         data.add_field(name="Api version", value=discord.__version__)
-        data.add_field(name="Users", value="{} Online<:vpOnline:212789758110334977>\n{} Idle<:vpAway:212789859071426561>\n{} Dnd<:vpDnD:236744731088912384>\n{} Offline<:vpOffline:212790005943369728>".format(online, idle, dnd, offline))
-        data.add_field(name="Channels", value="{} Voice Channels\n{} Text Channels".format(len([e for e in self.bot.get_all_channels() if e.type == discord.ChannelType.voice]), len([e for e in self.bot.get_all_channels() if e.type == discord.ChannelType.text])))
+        data.add_field(name="Users", value="{} Online<:vpOnline:212789758110334977>\n{} Idle<:vpAway:212789859071426561>\n{} Dnd<:vpDnD:236744731088912384>\n{} Offline<:vpOffline:212790005943369728>\n**Total:** {}".format(len(online), len(idle), len(dnd), len(offline), len(idle, dnd, offline, online)))
+        data.add_field(name="Channels", value="{} Voice Channels\n{} Text Channels\n**Total:** {}".format(len([e for e in self.bot.get_all_channels() if e.type == discord.ChannelType.voice]), len([e for e in self.bot.get_all_channels() if e.type == discord.ChannelType.text]), len([e for e in bot.get_all_channels() if e.type == discord.ChannelType.text] + [e for e in bot.get_all_channels() if e.type == discord.ChannelType.voice])))
         data.add_field(name='CPU usage', value='{0:.1f}%'.format(cpu_usage))
         data.add_field(name='Memory usage', value='{0:.1f}%'.format(mem_v.percent))
         data.add_field(name="Commands", value="{0} active modules, with {1} commands...".format(len(self.bot.cogs), len(self.bot.commands)))
