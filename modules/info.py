@@ -166,10 +166,10 @@ https://discord.gg/fmuvSX9""")
         mem_v = psutil.virtual_memory()
         cpu_p = psutil.cpu_percent(interval=None, percpu=True)
         cpu_usage = sum(cpu_p)/len(cpu_p)
-        online = [e.name for e in self.bot.get_all_members() if not e.bot and e.status == discord.Status.online]
-        idle = [e.name for e in self.bot.get_all_members() if not e.bot and e.status == discord.Status.idle]
-        dnd = [e.name for e in self.bot.get_all_members() if not e.bot and e.status == discord.Status.dnd]
-        offline = [e.name for e in self.bot.get_all_members() if not e.bot and e.status == discord.Status.offline]
+        online = len([e.name for e in self.bot.get_all_members() if not e.bot and e.status == discord.Status.online])
+        idle = len([e.name for e in self.bot.get_all_members() if not e.bot and e.status == discord.Status.idle])
+        dnd = len([e.name for e in self.bot.get_all_members() if not e.bot and e.status == discord.Status.dnd])
+        offline = len([e.name for e in self.bot.get_all_members() if not e.bot and e.status == discord.Status.offline])
         seconds = time.time() - starttime
         m, s = divmod(seconds, 60)
         h, m = divmod(m, 60)
@@ -185,8 +185,8 @@ https://discord.gg/fmuvSX9""")
         data.add_field(name="Shard Count", value=self.bot.shard_count)
         data.add_field(name="Servers", value=len(self.bot.servers))
         data.add_field(name="Api version", value=discord.__version__)
-        data.add_field(name="Users", value="{} Online<:vpOnline:212789758110334977>\n{} Idle<:vpAway:212789859071426561>\n{} Dnd<:vpDnD:236744731088912384>\n{} Offline<:vpOffline:212790005943369728>\n**Total:** {}".format(len(online), len(idle), len(dnd), len(offline), len(idle, dnd, offline, online)))
-        data.add_field(name="Channels", value="{} Voice Channels\n{} Text Channels\n**Total:** {}".format(len([e for e in self.bot.get_all_channels() if e.type == discord.ChannelType.voice]), len([e for e in self.bot.get_all_channels() if e.type == discord.ChannelType.text]), len([e for e in bot.get_all_channels() if e.type == discord.ChannelType.text] + [e for e in bot.get_all_channels() if e.type == discord.ChannelType.voice])))
+        data.add_field(name="Users", value="{} Online<:vpOnline:212789758110334977>\n{} Idle<:vpAway:212789859071426561>\n{} Dnd<:vpDnD:236744731088912384>\n{} Offline<:vpOffline:212790005943369728>\n**Total:** {}".format(online, idle, dnd, offline, len([e.name for e in self.bot.get_all_members())))
+        data.add_field(name="Channels", value="{} Voice Channels\n{} Text Channels\n**Total:** {}".format(len([e for e in self.bot.get_all_channels() if e.type == discord.ChannelType.voice]), len([e for e in self.bot.get_all_channels() if e.type == discord.ChannelType.text]), len([e.name for e in bot.get_all_channels])))
         data.add_field(name='CPU usage', value='{0:.1f}%'.format(cpu_usage))
         data.add_field(name='Memory usage', value='{0:.1f}%'.format(mem_v.percent))
         data.add_field(name="Commands", value="{0} active modules, with {1} commands...".format(len(self.bot.cogs), len(self.bot.commands)))
