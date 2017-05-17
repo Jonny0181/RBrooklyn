@@ -10,7 +10,7 @@ import time
 import copy
 from utils.dataIO import dataIO, fileIO
 from discord.ext import commands
-from random import choice, randit
+from random import choice, randint
 from utils.chat_formatting import pagify, box
 
 starttime = time.time()
