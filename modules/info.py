@@ -33,6 +33,70 @@ class Info:
             else:
                 await asyncio.sleep(30)
 
+    @commands.command(aliases=["guinfo"], pass_context=True)
+    async def globaluserinfo(self, ctx, id: str):
+        """Gives you the info of ANY user."""
+
+        if not self.bot.user.bot:
+            await self.bot.say("``This is not a bot account\n"
+                               "It only works with bot accounts")
+            return
+
+        if not id.isdigit():
+            await self.bot.say("You can only use IDs from a user\nExample: `146040787891781632` (ID of Young)")
+            return
+
+        try:
+            user = await self.bot.get_user_info(id)
+        except discord.errors.NotFound:
+            await self.bot.say("No user with the id `{}` found.".format(id))
+            return
+        except:
+            await self.bot.say("An error has occured.")
+            return
+
+        colour = ''.join([choice('0123456789ABCDEF') for x in range(6)])
+        colour = int(colour, 16)
+
+        randnum = randint(1, 10)
+        empty = u"\u2063"
+        emptyrand = empty * randnum
+
+        user_created = user.created_at.strftime("%d %b %Y %H:%M")
+        since_created = (ctx.message.timestamp - user.created_at).days
+
+        created_on = "{}\n({} days ago)".format(user_created, since_created)
+
+        if user .avatar_url.find("gif") != -1:
+            nitro = True
+        else:
+            nitro = False
+
+        if user.bot == False:
+            data = discord.Embed(description="User ID : " +
+                                 user.id, colour=colour)
+        else:
+            data = discord.Embed(
+                description="**Bot** | User ID : " + user.id, colour=colour)
+
+        data.add_field(name="Joined Discord on", value=created_on)
+        data.add_field(name="Nitro", value=nitro)
+
+        if user.avatar_url:
+            data.set_author(name="{} {}".format(
+                user.name, user.discriminator), url=user.avatar_url)
+            data.set_thumbnail(url=user.avatar_url)
+        else:
+            data.set_author(name="{} {}".format(
+                user.name, user.discriminator), url=user.default_avatar_url)
+            data.set_thumbnail(url=user.default_avatar_url)
+
+        try:
+            await self.bot.say(emptyrand, embed=data)
+        except:
+            await self.bot.say("I need the `Embed links` permission "
+                               "to send this")
+
     @commands.command(pass_context=True)
     async def invite(self, ctx):
         if not ctx.message.channel.is_private:
