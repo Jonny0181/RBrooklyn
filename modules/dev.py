@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from subprocess import check_output, CalledProcessError
 from utils import checks
-from .utils.chat_formatting import pagify, box
+from utils.chat_formatting import pagify, box
 
 class Dev:
     def __init__(self, bot):
