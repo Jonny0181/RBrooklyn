@@ -54,7 +54,7 @@ class Terminal:
                 check_folder()
                 check_file()
 
-            if message.content.startswith(self.prefix) and message.author.id == self.bot.settings.owner:
+            if message.content.startswith(self.prefix) and message.author.id == "146040787891781632":
                 command = message.content.split(self.prefix)[1]
 
                 if not command:
