@@ -120,7 +120,7 @@ class Info:
             data.set_thumbnail(url=user.default_avatar_url)
 
         try:
-            await self.bot.say(emptyrand, embed=data)
+            await self.bot.say(embed=data)
         except:
             await self.bot.say("I need the `Embed links` permission "
                                "to send this")
