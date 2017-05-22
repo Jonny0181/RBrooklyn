@@ -45,7 +45,7 @@ class Info:
         else:
             colour = discord.Colour.blue()
         e = discord.Embed(description="Showing Information for Brooklyn.", colour=colour)
-        e.set_thumbnail(url=bot.user.avatar_url)
+        e.set_thumbnail(url=self.bot.user.avatar_url)
         e.add_field(name="Developer:", value="<@146040787891781632>")
         e.add_field(name="Support:", value="<@217179156008534016>, <@125367412370440192>")
         e.add_field(name="Bot Version:", value="v4")
