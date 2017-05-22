@@ -15,6 +15,7 @@ from utils.chat_formatting import pagify, box
 
 starttime = time.time()
 DB_VERSION = 2
+wrap = "```py\n{}```"
 
 class Info:
     def __init__(self, bot):
@@ -32,6 +33,126 @@ class Info:
                 await asyncio.sleep(60)
             else:
                 await asyncio.sleep(30)
+
+    @commands.command(pass_context=True)
+    async def inrole(self, ctx, *, rolename):
+        """Check members in the role specified."""
+        colour = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
+        colour = int(colour, 16)
+        server = ctx.message.server
+        message = ctx.message
+        channel = ctx.message.channel
+        await self.bot.send_typing(ctx.message.channel)
+        therole = discord.utils.find(lambda r: r.name.lower() == rolename.lower(), ctx.message.server.roles)
+        if therole is not None and len([m for m in server.members if therole in m.roles]) < 50:
+            await asyncio.sleep(1) #taking time to retrieve the names
+            server = ctx.message.server
+            member = discord.Embed(description="**{1} users found in the {0} role.**\n".format(rolename, len([m for m in server.members if therole in m.roles])), colour=discord.Colour(value=colour))
+            member.add_field(name="Users", value="\n".join(m.display_name for m in server.members if therole in m.roles))
+            await self.bot.say(embed=member)
+        elif len([m for m in server.members if therole in m.roles]) > 50:
+            awaiter = await self.bot.say("Getting Member Names")
+            await asyncio.sleep(1)
+            await self.bot.edit_message(awaiter, " :raised_hand: Woah way too many people in **{0}** Role, **{1}** Members found\n".format(rolename,  len([m.mention for m in server.members if therole in m.roles])))
+        else:
+            embed=discord.Embed(description="**Role was not found**", colour=discord.Colour(value=colour))
+            await self.bot.say(embed=embed)
+
+    @commands.command(pass_context=True, no_pm=True)
+    async def avatar(self, ctx, *, user: discord.Member=None):
+        """Retrieves a users avatar."""
+        author = ctx.message.author
+        if not user:
+            user = author
+        data = discord.Embed(colour=user.colour)
+        data.set_image(url=user.avatar_url)
+        data.set_author(name="Avatar for "+user.name, icon_url=user.avatar_url)
+        data.set_footer(text=datetime.datetime.now().strftime("%A, %B %-d %Y at %-I:%M%p").replace("PM", "pm").replace("AM", "am"))
+        await self.bot.say(embed=data)
+
+    @commands.command(pass_context=True, aliases=["ri"])
+    async def roleinfo(self, ctx, rolename):
+        """Get your role info !!!
+        If dis dun work first trry use "" quotes on te role"""
+        channel = ctx.message.channel
+        server = ctx.message.server
+        colour = ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
+        colour = int(colour, 16)
+        await self.bot.send_typing(ctx.message.channel)
+        therole = discord.utils.find(lambda r: r.name.lower() == rolename.lower(), ctx.message.server.roles)
+        since_created = (ctx.message.timestamp - therole.created_at).days
+        created_on = "{} days ago".format(since_created)
+        if therole is None:
+            await bot.say(':no_good: That role cannot be found. :no_good:')
+            return
+        if therole is not None:
+            perms = iter(therole.permissions)
+            perms_we_have = ""
+            perms_we_dont = ""
+            for x in perms:
+                if "True" in str(x):
+                    perms_we_have += "<:vpGreenTick:257437292820561920> {0}\n".format(str(x).split('\'')[1])
+                else:
+                    perms_we_dont += ("<:vpRedTick:257437215615877129> {0}\n".format(str(x).split('\'')[1]))
+            msg = discord.Embed(description=":raised_hand:***`Collecting Role Stats`*** :raised_hand:",
+            colour=therole.color)
+            if therole.color is None:
+                therole.color = discord.Colour(value=colour)
+            lolol = await self.bot.say(embed=msg)
+            em = discord.Embed(colour=therole.colour)
+            em.add_field(name="Role Name", value=therole.name)
+            em.add_field(name="Created", value=created_on)
+            em.add_field(name="UsersinRole", value=len([m for m in server.members if therole in m.roles]))
+            em.add_field(name="Id", value=therole.id)
+            em.add_field(name="Color", value=therole.color)
+            em.add_field(name="Position", value=therole.position)
+            em.add_field(name="Valid Perms", value="{}".format(perms_we_have))
+            em.add_field(name="Invalid Perms", value="{}".format(perms_we_dont))
+            em.set_thumbnail(url=server.icon_url)
+        try:
+            await self.bot.edit_message(lolol, embed=em)
+        except discord.HTTPException:
+            permss = "```diff\n"
+            therole = discord.utils.find(lambda r: r.name.lower() == rolename.lower(), ctx.message.server.roles)
+            if therole is None:
+                await bot.say(':no_good: That role cannot be found. :no_good:')
+                return
+            if therole is not None:
+                perms = iter(therole.permissions)
+                perms_we_have2 = ""
+                perms_we_dont2 = ""
+                for x in perms:
+                    if "True" in str(x):
+                        perms_we_have2 += "+{0}\n".format(str(x).split('\'')[1])
+                    else:
+                        perms_we_dont2 += ("-{0}\n".format(str(x).split('\'')[1]))
+            await self.bot.say("{}Name: {}\nCreated: {}\nUsersinRole : {}\nId : {}\nColor : {}\nPosition : {}\nValid Perms : \n{}\nInvalid Perms : \n{}```".format(permss, therole.name, created_on, len([m for m in server.members if therole in m.roles]), therole.id, therole.color, therole.position, perms_we_have2, perms_we_dont2))
+            await self.bot.delete_message(lolol)
+
+    @commands.command(pass_context=True)
+    async def discr(self, ctx, discrim: int):
+        """gives you farmed discrms"""
+        try:
+            dis = []
+            for server in self.bot.servers:
+                for member in server.members:
+                    if int(member.discriminator) == discrim:
+                        if not member.name in dis:
+                            dis.append(member.name)
+            em = discord.Embed(title="Scraped Discriminators\n", description="\n".join(dis),color=0xff5555, inline=True)
+            await self.bot.say(embed=em)
+        except Exception as e:
+            await self.bot.say(wrap.format(type(e).__name__ + ': ' + str(e)))
+
+    @commands.command(pass_context=True)
+    async def sleaderboard(self, ctx):
+        author = ctx.message.author
+        server = ctx.message.server
+        e = discord.Embed(colour=author.colour)
+        e.set_thumbnail(url=server.me.avatar_url)
+        e.title = "Currently on {} server with {} users on shard {}!".format(len(self.bot.servers), len([e.name for e in self.bot.get_all_members()], str(self.bot.shard_id + 1)))
+        e.description = "".join(["**Name:** {0.name} | **Members:** {0.member_count} Members\n\n".format(e) for e in sorted(self.bot.servers, key =lambda e : e.member_count, reverse=True)][:10])
+        await self.bot.say(embed=e)
 
     @commands.command(pass_context=True)
     async def info(self, ctx):
