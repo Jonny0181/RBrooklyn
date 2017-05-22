@@ -75,14 +75,6 @@ class Dev:
                         break
             await self.bot.say(box(page, lang="py"))
 
-    @commands.command()
-    @checks.is_owner()
-    async def setavatar(self, *, url: str):
-        """Change the bot's avatar."""
-        avatar = await get_file(url)
-        await self.bot.edit_profile(avatar=avatar)
-        await self.bot.say("Changed avatar.")
-
     @commands.group(pass_context=True)
     @checks.is_owner()
     async def pip(self, ctx):
