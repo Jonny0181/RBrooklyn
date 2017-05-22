@@ -33,6 +33,32 @@ class Info:
             else:
                 await asyncio.sleep(30)
 
+    @commands.command(pass_context=True)
+    async def info(self, ctx):
+        """Shows info on Brooklyn."""
+        server = ctx.message.server
+        shard_count = self.bot.shard_count
+        members1 = str(sum(len(s.members) for s in self.bot.servers))
+        members2 = str(int(str(members1)) * int(shard_count))
+        if server.me.colour:
+            colour = server.me.colour
+        else:
+            colour = discord.Colour.blue()
+        e = discord.Embed(description="Showing Information for Brooklyn.", colour=colour)
+        e.set_thumbnail(url=bot.user.avatar_url)
+        e.add_field(name="Developer:", value="<@146040787891781632>")
+        e.add_field(name="Support:", value="<@217179156008534016>, <@125367412370440192>")
+        e.add_field(name="Bot Version:", value="v4")
+        e.add_field(name="Discord Version:", value=discord.__version__)
+        e.add_field(name="Build Date:", value="September 16, 2016 00:09")
+        e.add_field(name="Voice Connections:", value=len(self.bot.voice_clients))
+        e.add_field(name="Servers:", value=str(int(len(self.bot.servers)) * int(shard_count)))
+        e.add_field(name="Members:", value=members2)
+        e.add_field(name="Shard:", value="Shard {} out of {}.".format(str(self.bot.shard_id + 1), str(self.bot.shard_count)))
+        e.add_field(name="Shard Servers and Members:", value="{} members in {} servers.".format(members1, len(self.bot.servers)))
+        e.set_author(name=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+        await self.bot.say(embed=e)
+
     @commands.command(aliases=["guinfo"], pass_context=True)
     async def globaluserinfo(self, ctx, id: str):
         """Gives you the info of ANY user."""
