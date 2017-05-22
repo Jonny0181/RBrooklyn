@@ -38,6 +38,7 @@ class Info:
         """Shows info on Brooklyn."""
         server = ctx.message.server
         shard_count = self.bot.shard_count
+        musage = psutil.Process().memory_full_info().uss / 1024**2
         members1 = str(sum(len(s.members) for s in self.bot.servers))
         members2 = str(int(str(members1)) * int(shard_count))
         if server.me.colour:
@@ -54,8 +55,9 @@ class Info:
         e.add_field(name="Voice Connections:", value=len(self.bot.voice_clients))
         e.add_field(name="Servers:", value=str(int(len(self.bot.servers)) * int(shard_count)))
         e.add_field(name="Members:", value=members2)
-        e.add_field(name="Shard:", value="Shard {} out of {}.".format(str(self.bot.shard_id + 1), str(self.bot.shard_count)))
+        e.add_field(name="Shard Number:", value="Shard {} out of {}.".format(str(self.bot.shard_id + 1), str(self.bot.shard_count)))
         e.add_field(name="Shard Servers and Members:", value="{} members in {} servers.".format(members1, len(self.bot.servers)))
+        e.add_field(name="Memory Usage:", value="{:.2f} MiB".format(musage))
         e.set_author(name=self.bot.user.name, icon_url=self.bot.user.avatar_url)
         await self.bot.say(embed=e)
 
