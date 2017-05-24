@@ -16,8 +16,8 @@ class Ignore:
     @commands.group(pass_context=True, name="ignore")
     async def _ignore(self, ctx):
         """Ignore a channel, user and or role for your server."""
-            if ctx.invoked_subcommand is None:
-                await self.bot.send_cmd_help(ctx)
+        if ctx.invoked_subcommand is None:
+            await self.bot.send_cmd_help(ctx)
 
     @_ignore.command(pass_context=True)
     async def configure(self, ctx):
