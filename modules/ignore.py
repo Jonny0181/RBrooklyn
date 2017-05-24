@@ -57,7 +57,7 @@ class Ignore:
                 db[server.id]["Roles"].append(role.id)
                 fileIO(self.load, "save", db)
                 await self.bot.say("Role added to the ignore list.")
-           if channel.id in [server.id]["Roles"]:
+            if channel.id in [server.id]["Roles"]:
                 await self.bot.say("This role is already in the ignore list.")
 
     @_ignore.command(pass_context=True)
