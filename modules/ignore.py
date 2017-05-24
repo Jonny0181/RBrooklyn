@@ -1,10 +1,10 @@
 import os
 import discord
 import asyncio
-from cogs.utils import checks
+from utils import checks
 from discord.ext import commands
 from random import choice, randint
-from cogs.utils.dataIO import fileIO, dataIO
+from utils.dataIO import fileIO, dataIO
 
 settings = {"Channels" : [], "Users" : [], "Roles" : []}
 
