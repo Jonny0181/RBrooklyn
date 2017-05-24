@@ -27,13 +27,14 @@ class Paint:
             border = [ "|", "|" ]
         bubble.append("%s %s %s" % (border[0], line, border[1]))
     bubble.append("  " + "-" * bordersize)
-    return "\n".join(bubble) + """
+    okay = "\n".join(bubble) + """
          \   ^__^
           \  (oo)\_______
              (__)\       )\/\\
                  ||----w |
                  ||     ||
     """
+    return okay
    
 
 
