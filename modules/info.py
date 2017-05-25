@@ -559,7 +559,7 @@ https://discord.gg/fmuvSX9""")
         user_joined = joined_at.strftime("%d %b %Y %H:%M")
         user_created = user.created_at.strftime("%d %b %Y %H:%M")
         member_number = sorted(server.members, key=lambda m: m.joined_at).index(user) + 1
-        shared = sum(1 for m in self.bot.get_all_members() if m.id == member.id)
+        shared = sum(1 for m in self.bot.get_all_members() if m.id == user.id)
         created_on = "{}\n({} days ago)".format(user_created, since_created)
         joined_on = "{}\n({} days ago)".format(user_joined, since_joined)
         game = "Chilling in {} status".format(user.status)
