@@ -22,7 +22,7 @@ class Dev:
             elif asyncio.iscoroutine(result):
                 await result
             else:
-                e = discord.Embed(colour=discord.Colour.green()
+                e = discord.Embed(colour=discord.Colour.green())
                 e.add_field(name="Input:", value=code, inline=False)
                 e.add_field(name="Output:", value=wrap.format(result), inline=False)
                 await self.bot.say(embed=e)
