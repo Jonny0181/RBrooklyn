@@ -33,6 +33,7 @@ class Ignore:
             db[server.id] = settings
             fileIO(self.load, "save", db)
             await self.bot.say("Configured server! You may not ignore channels, users and roles!")
+	    return
 
     @_ignore.command(pass_context=True)
     async def channel(self, ctx, *, channel : discord.Channel):
@@ -44,8 +45,10 @@ class Ignore:
                 db[server.id]["Channels"].append(channel.id)
                 fileIO(self.load, "save", db)
                 await self.bot.say("Channel added to the ignore list.")
+		return
             if channel.id in db[server.id]["Channels"]:
                 await self.bot.say("This channel is already in the ignore list.")
+		return
 
     @_ignore.command(pass_context=True)
     async def role(self, ctx, *, role : discord.role):
@@ -57,8 +60,10 @@ class Ignore:
                 db[server.id]["Roles"].append(role.id)
                 fileIO(self.load, "save", db)
                 await self.bot.say("Role added to the ignore list.")
+		return
             if role.id in db[server.id]["Roles"]:
                 await self.bot.say("This role is already in the ignore list.")
+		return
 
     @_ignore.command(pass_context=True)
     async def user(self, ctx, *, user : discord.Member):
@@ -70,8 +75,10 @@ class Ignore:
                 db[server.id]["Users"].append(user.id)
                 fileIO(self.load, "save", db)
                 await self.bot.say("User added to the ignore list.")
+		return
             if user.id in db[server.id]["Users"]:
                 await self.bot.say("This user is already in the ignore list.")
+		return
 
 def check_folder():
     if not os.path.exists('data/ignore'):
