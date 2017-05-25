@@ -23,7 +23,7 @@ class Dev:
                 await result
             else:
                 e = discord.Embed(colour=discord.Colour.green())
-                e.add_field(name="Input:", value=code, inline=False)
+                e.add_field(name="Input:", value=wrap.format(code), inline=False)
                 e.add_field(name="Output:", value=wrap.format(result), inline=False)
                 await self.bot.say(embed=e)
         except Exception as e:
