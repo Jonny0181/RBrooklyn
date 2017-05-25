@@ -546,46 +546,39 @@ https://discord.gg/fmuvSX9""")
         return user.joined_at
         
     @commands.command(pass_context=True)
-    async def uinfo(self, ctx, *, user: discord.Member=None):
+    async def userinfo(self, ctx, *, user: discord.Member=None):
         """Shows userss informations"""
         author = ctx.message.author
         server = ctx.message.server
-
         if not user:
             user = author
-
         roles = [x.name for x in user.roles if x.name != "@everyone"]
-
         joined_at = self.fetch_joined_at(user, server)
         since_created = (ctx.message.timestamp - user.created_at).days
         since_joined = (ctx.message.timestamp - joined_at).days
         user_joined = joined_at.strftime("%d %b %Y %H:%M")
         user_created = user.created_at.strftime("%d %b %Y %H:%M")
-        member_number = sorted(server.members,
-                               key=lambda m: m.joined_at).index(user) + 1
-
+        member_number = sorted(server.members, key=lambda m: m.joined_at).index(user) + 1
+        shared = sum(1 for m in self.bot.get_all_members() if m.id == member.id)
         created_on = "{}\n({} days ago)".format(user_created, since_created)
         joined_on = "{}\n({} days ago)".format(user_joined, since_joined)
-
         game = "Chilling in {} status".format(user.status)
-
         if user.game is None:
             pass
         elif user.game.url is None:
             game = "**Playing:** {}".format(user.game)
         else:
             game = "**Streaming:** [{}]({})".format(user.game, user.game.url)
-
         if roles:
-            roles = sorted(roles, key=[x.name for x in server.role_hierarchy
-                                       if x.name != "@everyone"].index)
+            roles = sorted(roles, key=[x.name for x in server.role_hierarchy if x.name != "@everyone"].index)
             roles = ", ".join(roles)
         else:
             roles = "None"
-
         data = discord.Embed(description=game, colour=user.colour)
         data.add_field(name="Name", value=user.name)
         data.add_field(name="ID", value=user.id)
+        data.add_field(name="Member Number:", value=member_number)
+        data.add_field(name="Shared Servers:", value="%s servers." % shared)
         data.add_field(name="Color", value=user.colour)
         data.add_field(name="Discriminator", value=user.discriminator)
         data.add_field(name="VoiceChannel", value=bool(user.voice_channel))
@@ -597,8 +590,6 @@ https://discord.gg/fmuvSX9""")
         data.add_field(name="Joined Discord on", value=created_on)
         data.add_field(name="Joined this server on", value=joined_on)
         data.add_field(name="All Roles", value=roles, inline=False)
-        data.set_footer(text="Member Number: {}"
-                             "".format(member_number))
         if user.avatar_url:
             name = str(user)
             name = " ~ ".join((name, user.nick)) if user.nick else name
@@ -606,7 +597,6 @@ https://discord.gg/fmuvSX9""")
             data.set_thumbnail(url=user.avatar_url)
         else:
             data.set_author(name=user.name)
-
         try:
             await self.bot.say(embed=data)
         except discord.HTTPException:
