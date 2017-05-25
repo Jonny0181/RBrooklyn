@@ -1,12 +1,33 @@
 import discord
+import asyncio
 from discord.ext import commands
 from subprocess import check_output, CalledProcessError
 from utils import checks
 from utils.chat_formatting import pagify, box
 
+wrap = "```py\n{}```"
+
 class Dev:
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command(hidden=True, pass_context=True)
+    @checks.is_owner()
+    async def eval(self, ctx, *, code: str):
+        """Evaluates code."""
+        try:
+            result = eval(code)
+            if code.lower().startswith("print"):
+                result
+            elif asyncio.iscoroutine(result):
+                await result
+            else:
+                e = discord.Embed(colour=discord.Colour.green()
+                e.add_field(name="Input:", value=code, inline=False)
+                e.add_field(name="Output:", value=wrap.format(result), inline=False)
+                await self.bot.say(embed=e)
+        except Exception as e:
+            await self.bot.say(embed=discord.Embed(description=wrap.format(type(e).__name__ + ': ' + str(e)), colour=discord.Colour.red()))
 
     @commands.group(pass_context=True)
     @checks.is_owner()
