@@ -33,7 +33,7 @@ class Ignore:
             db[server.id] = settings
             fileIO(self.load, "save", db)
             await self.bot.say("Configured server! You may not ignore channels, users and roles!")
-	    return
+            return
 
     @_ignore.command(pass_context=True)
     async def channel(self, ctx, *, channel : discord.Channel):
