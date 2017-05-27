@@ -12,7 +12,7 @@ class bump:
 
     def __init__(self, bot):
         self.bot = bot
-        self.path = dataIO.load_json("data/bump/{}/settings.json".format(self.bot.shard_id))
+        self.path = dataIO.load_json("data/bump/{}/settings.json".format(bot.shard_id))
 
     @commands.cooldown(1, 1500, type=commands.BucketType.server)
     @commands.command(pass_context=True)
