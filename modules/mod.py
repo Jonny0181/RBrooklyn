@@ -10,7 +10,69 @@ class Mod:
         self.bot = bot
         self._tmp_banned_cache = []
         self.settings = dataIO.load_json("data/warner/warnings.json")
-        
+      
+    def _role_from_string(self, server, rolename, roles=None):
+        if roles is None:
+            roles = server.roles
+        role = discord.utils.find(lambda r: r.name.lower() == rolename.lower(),
+                                  roles)
+        try:
+            log.debug("Role {} found from rolename {}".format(
+                role.name, rolename))
+        except:
+            log.debug("Role not found for rolename {}".format(rolename))
+        return role
+  
+    @commands.command(no_pm=True, pass_context=True)
+    @checks.botcom()
+    async def addrole(self, ctx, rolename, user: discord.Member=None):
+        """Adds a role to a user, defaults to author
+        Role name must be in quotes if there are spaces."""
+        author = ctx.message.author
+        channel = ctx.message.channel
+        server = ctx.message.server
+
+        if user is None:
+            user = author
+
+        role = self._role_from_string(server, rolename)
+
+        if role is None:
+            await self.bot.say('That role cannot be found.')
+            return
+
+        if not channel.permissions_for(server.me).manage_roles:
+            await self.bot.say('I don\'t have manage_roles.')
+            return
+
+        await self.bot.add_roles(user, role)
+        await self.bot.say('Added role {} to {}'.format(role.name, user.name))
+
+    @commands.command(no_pm=True, pass_context=True)
+    @checks.botcom()
+    async def removerole(self, ctx, rolename, user: discord.Member=None):
+        """Removes a role from user, defaults to author
+        Role name must be in quotes if there are spaces."""
+        server = ctx.message.server
+        author = ctx.message.author
+
+        role = self._role_from_string(server, rolename)
+        if role is None:
+            await self.bot.say("Role not found.")
+            return
+
+        if user is None:
+            user = author
+
+        if role in user.roles:
+            try:
+                await self.bot.remove_roles(user, role)
+                await self.bot.say("Role successfully removed.")
+            except discord.Forbidden:
+                await self.bot.say("I don't have permissions to manage roles!")
+        else:
+            await self.bot.say("User does not have that role.")
+
     @commands.command(pass_context=True)
     @checks.botcom()
     async def massmove(self, ctx, from_channel: discord.Channel, to_channel: discord.Channel):
