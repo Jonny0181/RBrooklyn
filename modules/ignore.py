@@ -17,23 +17,18 @@ class Ignore:
     async def _ignore(self, ctx):
         """Ignore a channel, user and or role for your server."""
         if ctx.invoked_subcommand is None:
-            await self.bot.send_cmd_help(ctx)
+            await self.bot.say(embed=discord.Embed(description="""b!ignore
 
-    @_ignore.command(pass_context=True)
-    async def configure(self, ctx):
-        """Configure ignoring for your server."""
-        server = ctx.message.server
-        db = fileIO(self.load, "load")
-        if server.id in db:
-            db[server.id] = settings
-            fileIO(self.load, "save", db)
-            await self.bot.say(":x: Your server is already configured! Please add some channel, user, or roles you would like to have me ignore!")
-            return
-        if server.id not in db:
-            db[server.id] = settings
-            fileIO(self.load, "save", db)
-            await self.bot.say("Configured server! You may not ignore channels, users and roles!")
-            return
+Ignore a channel, user and or role for your server.
+
+Commands:
+  user      Ignore a role.
+  role      Ignore a role.
+  configure Configure ignoring for your server.
+  channel   Ignore a channel.
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
 
     @_ignore.command(pass_context=True)
     async def channel(self, ctx, *, channel : discord.Channel):
@@ -51,7 +46,7 @@ class Ignore:
                 return
 
     @_ignore.command(pass_context=True)
-    async def role(self, ctx, *, role : discord.role):
+    async def role(self, ctx, *, role : discord.Role):
         """Ignore a role."""
         server = ctx.message.server
         db = fileIO(self.load, "load")
@@ -78,6 +73,67 @@ class Ignore:
                 return
             if user.id in db[server.id]["Users"]:
                 await self.bot.say("This user is already in the ignore list.")
+                return
+
+    @commands.group(pass_context=True, name="unignore")
+    async def _unignore(self, ctx):
+        """Unignore a channel, user and or role for your server."""
+        if ctx.invoked_subcommand is None:
+            await self.bot.say(embed=discord.Embed(description="""b!ignore
+
+Unignore a channel, user and or role for your server.
+
+Commands:
+  user      Unignore a role.
+  role      Unignore a role.
+  channel   Unignore a channel.
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
+
+    @_unignore.command(pass_context=True)
+    async def channel(self, ctx, *, channel : discord.Channel):
+        """Unignore a channel."""
+        server = ctx.message.server
+        db = fileIO(self.load, "load")
+        if server.id in db:
+            if channel.id not in db[server.id]["Channels"]:
+                await self.bot.say("Channel is not in the ignore list.")
+                return
+            if channel.id in db[server.id]["Channels"]:
+                db[server.id]["Channels"].remove(channel.id)
+                fileIO(self.load, "save", db)
+                await self.bot.say("This channel has been removed from the ignore list.")
+                return
+
+    @_unignore.command(pass_context=True)
+    async def role(self, ctx, *, role : discord.Role):
+        """Unignore a role."""
+        server = ctx.message.server
+        db = fileIO(self.load, "load")
+        if server.id in db:
+            if role.id not in db[server.id]["Roles"]:
+                await self.bot.say("Role is not in the ignore list.")
+                return
+            if role.id in db[server.id]["Roles"]:
+                db[server.id]["Roles"].remove(role.id)
+                fileIO(self.load, "save", db)
+                await self.bot.say("This role has been removed from the ignore list.")
+                return
+
+    @_unignore.command(pass_context=True)
+    async def user(self, ctx, *, user : discord.Member):
+        """Unignore a role."""
+        server = ctx.message.server
+        db = fileIO(self.load, "load")
+        if server.id in db:
+            if user.id not in db[server.id]["Users"]:
+                await self.bot.say("User is not in the ignore list.")
+                return
+            if user.id in db[server.id]["Users"]:
+                db[server.id]["Users"].remove(user.id)
+                fileIO(self.load, "save", db)
+                await self.bot.say("This user has been removed from the ignore list.")
                 return
 
 def check_folder():
