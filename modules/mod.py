@@ -16,11 +16,6 @@ class Mod:
             roles = server.roles
         role = discord.utils.find(lambda r: r.name.lower() == rolename.lower(),
                                   roles)
-        try:
-            log.debug("Role {} found from rolename {}".format(
-                role.name, rolename))
-        except:
-            log.debug("Role not found for rolename {}".format(rolename))
         return role
   
     @commands.command(no_pm=True, pass_context=True)
