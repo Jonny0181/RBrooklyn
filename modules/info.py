@@ -34,6 +34,11 @@ class Info:
             else:
                 await asyncio.sleep(30)
 
+    @commands.command()
+    async def shard(self):
+        """Shows shard number."""
+        await self.bot.say("Shard {} out of {} shards.".format(str(self.bot.shard_id + 1), self.bot.shard_count))
+
     @commands.command(pass_context=True)
     async def inrole(self, ctx, *, rolename):
         """Check members in the role specified."""
