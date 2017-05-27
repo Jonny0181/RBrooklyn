@@ -12,7 +12,7 @@ class bump:
 
     def __init__(self, bot):
         self.bot = bot
-        self.path = dataIO.load_json("data/bump/settings.json")
+        self.path = dataIO.load_json("data/bump/{}/settings.json".format(self.bot.shard_id))
 
     @commands.cooldown(1, 1500, type=commands.BucketType.server)
     @commands.command(pass_context=True)
@@ -53,7 +53,7 @@ class bump:
     async def bumpchannel(self, ctx, channel: discord.Channel=None):
         """Sets the channel to send bump messages to."""
         self.path["bumpchannel"] = channel.id
-        dataIO.save_json("data/bump/settings.json", self.path)
+        dataIO.save_json("data/bump/{}/settings.json".format(self.bot.shard_id), self.path)
 
 
 def check_folder():
@@ -61,8 +61,8 @@ def check_folder():
         os.mkdir("data/bump")
 
 def check_file():
-    if not dataIO.is_valid_json("data/bump/settings.json"):
-        dataIO.save_json("data/bump/settings.json", {})
+    if not dataIO.is_valid_json("data/bump/{}/settings.json".format(self.bot.shard_id)):
+        dataIO.save_json("data/bump/{}/settings.json".format(self.bot.shard_id), {})
     
 def setup(bot):
     check_folder()
