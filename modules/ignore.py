@@ -25,7 +25,6 @@ Ignore a channel, user and or role for your server.
 Commands:
   user      Ignore a role.
   role      Ignore a role.
-  configure Configure ignoring for your server.
   channel   Ignore a channel.
 
 Type b!help command for more info on a command.
