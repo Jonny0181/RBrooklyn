@@ -61,8 +61,8 @@ def check_folder():
         os.mkdir("data/bump")
 
 def check_file():
-    if not dataIO.is_valid_json("data/bump/{}/settings.json".format(self.bot.shard_id)):
-        dataIO.save_json("data/bump/{}/settings.json".format(self.bot.shard_id), {})
+    if not dataIO.is_valid_json("data/bump/{}/settings.json".format(bot.shard_id)):
+        dataIO.save_json("data/bump/{}/settings.json".format(bot.shard_id), {})
     
 def setup(bot):
     check_folder()
