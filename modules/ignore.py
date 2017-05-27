@@ -13,6 +13,7 @@ class Ignore:
         self.bot = bot
         self.load = "data/ignore/ignore_list.json"
 		    
+    @checks.botcom()
     @commands.group(pass_context=True, name="ignore")
     async def _ignore(self, ctx):
         """Ignore a channel, user and or role for your server."""
@@ -75,6 +76,7 @@ You can also type b!help category for more info on a category."""))
                 await self.bot.say("This user is already in the ignore list.")
                 return
 
+    @checks.botcom()
     @commands.group(pass_context=True, name="unignore")
     async def _unignore(self, ctx):
         """Unignore a channel, user and or role for your server."""
