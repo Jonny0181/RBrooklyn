@@ -91,8 +91,8 @@ Commands:
 Type b!help command for more info on a command.
 You can also type b!help category for more info on a category."""))
 
-    @_unignore.command(pass_context=True)
-    async def channel(self, ctx, *, channel : discord.Channel):
+    @_unignore.command(name="channel", pass_context=True)
+    async def _channel(self, ctx, *, channel : discord.Channel):
         """Unignore a channel."""
         server = ctx.message.server
         db = fileIO(self.load, "load")
@@ -106,8 +106,8 @@ You can also type b!help category for more info on a category."""))
                 await self.bot.say("This channel has been removed from the ignore list.")
                 return
 
-    @_unignore.command(pass_context=True)
-    async def role(self, ctx, *, role : discord.Role):
+    @_unignore.command(name="role", pass_context=True)
+    async def _role(self, ctx, *, role : discord.Role):
         """Unignore a role."""
         server = ctx.message.server
         db = fileIO(self.load, "load")
@@ -121,8 +121,8 @@ You can also type b!help category for more info on a category."""))
                 await self.bot.say("This role has been removed from the ignore list.")
                 return
 
-    @_unignore.command(pass_context=True)
-    async def user(self, ctx, *, user : discord.Member):
+    @_unignore.command(name="user", pass_context=True)
+    async def _user(self, ctx, *, user : discord.Member):
         """Unignore a role."""
         server = ctx.message.server
         db = fileIO(self.load, "load")
