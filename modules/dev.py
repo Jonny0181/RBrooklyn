@@ -1,5 +1,6 @@
 import discord
 import asyncio
+import datetime
 from discord.ext import commands
 from subprocess import check_output, CalledProcessError
 from utils import checks
@@ -10,6 +11,23 @@ wrap = "```py\n{}```"
 class Dev:
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command(pass_context=True)
+    @checks.is_owner()
+    async def whisper(self, ctx, user_id: str, *, msg: str):
+	"""Dm users."""
+        user = await self.bot.get_user_info(user_id)
+        try:
+            e = discord.Embed(colour=discord.Colour.red())
+            e.title = "You've recieved a message from a developer!"
+            e.add_field(name="Developer:", value=ctx.message.author)
+            e.add_field(name="Time:", value=datetime.datetime.now().strftime("%A, %B %-d %Y at %-I:%M%p").replace("PM", "pm").replace("AM", "am"))
+            e.add_field(name="Message:", value=msg, inline=False)
+            await self.bot.send_message(user, embed=e)
+        except:
+            await self.bot.say(':x: Failed to send message to user_id `{}`.'.format(user_id))
+        else:
+            await self.bot.say('Succesfully sent message to {}'.format(user_id))
 
     @commands.command(hidden=True, pass_context=True)
     @checks.is_owner()
