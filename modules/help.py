@@ -86,13 +86,13 @@ class Help(Cog):
             pre_len = sum([len(i) for i in field])
             if chars + pre_len < self.char_limit:
                 if len(content) <= 1024:
-                    emb.add_field(name=cog, value=content)
+                    emb.add_field(name=cog, value=content, inline=False)
                 else:
                     pager = commands.Paginator(prefix='', suffix='', max_size=1024)
                     for ln in field:
                         pager.add_line(ln)
                     for page in pager.pages:
-                        emb.add_field(name=cog, value=page)
+                        emb.add_field(name=cog, value=page, inline=False)
             else:
                 pages.append(emb)
                 emb = discord.Embed(color=random.randint(0, 256**3-1))
@@ -100,22 +100,18 @@ class Help(Cog):
                 emb.set_author(name=target.display_name, icon_url=avatar_link)
                 chars = 0
                 if len(content) <= 1024:
-                    emb.add_field(name=cog, value=content)
+                    emb.add_field(name=cog, value=content, inline=False)
                 else:
                     pager = commands.Paginator(prefix='', suffix='', max_size=1024)
                     for ln in field:
                         pager.add_line(ln)
                     for page in pager.pages:
-                        emb.add_field(name=cog, value=page)
+                        emb.add_field(name=cog, value=page, inline=False)
             chars += pre_len
         if not pages:
             pages.append(emb)
         pages[-1].set_footer(icon_url=avatar_link, text='Enjoy!')
         destination = ctx.message.author
-        if chars < 1000:
-            destination = ctx.message.channel
-        if len(pages) > 1:
-            destination = ctx.message.author
         for page in pages:
             try:
                 await self.bot.send_message(destination, embed=page)
