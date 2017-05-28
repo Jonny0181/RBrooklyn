@@ -11,9 +11,6 @@ class bump:
     @commands.command(pass_context=True)
     async def bump(self, ctx):
         """Bump your server!"""
-        if "bumpchannel" not in self.path or not self.path["bumpchannel"]:
-            await self.bot.say("No channel has been set for bump messages to go to!")
-            return
         inv = await self.bot.create_invite(ctx.message.server)
         server = ctx.message.server
         count = 1
