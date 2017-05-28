@@ -10,7 +10,7 @@ class Help(Cog):
         super().__init__(bot)
         self.char_limit = 3500
 
-    @commands.command(pass_context=True, aliases=['halp', 'phelp', 'phalp'])
+    @commands.command(pass_context=True)
     async def help(self, ctx, *commands_or_cogs: str):
         """Show the bot's help.
         Usage: help"""
@@ -116,10 +116,6 @@ class Help(Cog):
             destination = ctx.message.channel
         if len(pages) > 1:
             destination = ctx.message.author
-        if ctx.invoked_with.startswith('p'):
-            destination = ctx.message.channel
-        if self.bot.selfbot:
-            destination = ctx.message.channel
         for page in pages:
             try:
                 await self.bot.send_message(destination, embed=page)
