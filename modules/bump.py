@@ -22,17 +22,17 @@ class bump:
         if not channel:
             await self.bot.say("Something went wrong with getting the channels!")
             return
-        em = discord.Embed(title= "{}".format(server.name), color=0xFFFFFF, description="""
+        for channel in channels:
+            em = discord.Embed(title= "{}".format(server.name), color=0xFFFFFF, description="""
 **Server Information**
 :black_small_square: Server Owner : {}
 :black_small_square: Member Count : {}
 """.format(server.owner, server.member_count)) #0x0BFCF2 is the color code
-        em.add_field(name='**Description**', value="""
+            em.add_field(name='**Description**', value="""
 :black_small_square: {}""".format(server.default_channel.topic))
-        em.add_field(name='**Server Invite**', value="""
+            em.add_field(name='**Server Invite**', value="""
 :black_small_square: {}""".format(inv))
-        em.set_thumbnail(url=server.icon_url) #Or insert actual URL
-        for channel in channels:
+            em.set_thumbnail(url=server.icon_url) #Or insert actual URL
             await self.bot.send_message(channel, embed=em)
         server = ctx.message.server
         des = server.default_channel.topic
