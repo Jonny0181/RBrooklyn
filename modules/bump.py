@@ -1,18 +1,12 @@
 import discord
 import asyncio
-import sys
-import traceback
-import os
 from discord.ext import commands
-from utils.dataIO import dataIO
-from utils import checks
 
 class bump:
     """Bump!"""
 
     def __init__(self, bot):
         self.bot = bot
-        self.path = dataIO.load_json("data/bump/settings.json")
 
     @commands.cooldown(1, 1500, type=commands.BucketType.server)
     @commands.command(pass_context=True)
@@ -24,9 +18,9 @@ class bump:
         inv = await self.bot.create_invite(ctx.message.server)
         server = ctx.message.server
         count = 1
-        channel = self.bot.get_channel(self.path["bumpchannel"])
+        channels = [r for s in bot.servers for r in s.channels if r.name == "brooklyn_bump"]
         if not channel:
-            await self.bot.say("Something went wrong with getting the channel!")
+            await self.bot.say("Something went wrong with getting the channels!")
             return
         em = discord.Embed(title= "{}".format(server.name), color=0xFFFFFF, description="""
 **Server Information**
@@ -38,33 +32,16 @@ class bump:
         em.add_field(name='**Server Invite**', value="""
 :black_small_square: {}""".format(inv))
         em.set_thumbnail(url=server.icon_url) #Or insert actual URL
-        await self.bot.send_message(channel, embed=em)
+        for channel in channels:
+            await self.bot.send_message(channel, embed=em)
         server = ctx.message.server
         des = server.default_channel.topic
         members = server.member_count
         inv = await self.bot.create_invite(ctx.message.server)
         message = "Server: {0} \n Description: {1} \n Users: {2} \n  Invite: {3}".format(server, des, members, inv)
         self.bot.send_message(channel, embed=em)
-        end = discord.Embed(title="Your Server Was Succesfully Bumped")
+        end = discord.Embed(title="Your Server Was Succesfully Bumped", description=message, colour=discord.Colour.green())
         await self.bot.say(embed=end)
     
-    @checks.is_owner()
-    @commands.command(pass_context=True)
-    async def bumpchannel(self, ctx, channel: discord.Channel=None):
-        """Sets the channel to send bump messages to."""
-        self.path["bumpchannel"] = channel.id
-        dataIO.save_json("data/bump/settings.json", self.path)
-
-
-def check_folder():
-    if not os.path.isdir("data/bump"):
-        os.mkdir("data/bump")
-
-def check_file():
-    if not dataIO.is_valid_json("data/bump/settings.json"):
-        dataIO.save_json("data/bump/settings.json", {})
-    
 def setup(bot):
-    check_folder()
-    check_file()
     bot.add_cog(bump(bot))
