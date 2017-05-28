@@ -18,7 +18,7 @@ class bump:
         inv = await self.bot.create_invite(ctx.message.server)
         server = ctx.message.server
         count = 1
-        channels = [r for s in bot.servers for r in s.channels if r.name == "brooklyn_bump"]
+        channels = [r for s in self.bot.servers for r in s.channels if r.name == "brooklyn_bump"]
         if not channel:
             await self.bot.say("Something went wrong with getting the channels!")
             return
