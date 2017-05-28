@@ -251,8 +251,10 @@ You can also type b!help category for more info on a category."""))
             try:
                 if int(a.uses) > int(json_list[a.url]):
                     await self.bot.send_message(server.get_channel(channel), message.format(member, a, server))
+                    return
             except KeyError:
                 await self.bot.send_message(server.get_channel(channel), message.format(member, a, server))
+                return
             else:
                 pass
         invlist = await self.bot.invites_from(server)
@@ -270,6 +272,7 @@ You can also type b!help category for more info on a category."""))
         message = db[server.id]['Leavemsg']
         channel = db[server.id]["Channel"]
         await self.bot.send_message(server.get_channel(channel), message.format(member, server))
+        return
         
 def check_folder():
     if not os.path.exists('data/welcomer'):
