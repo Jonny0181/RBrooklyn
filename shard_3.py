@@ -10,6 +10,7 @@ import discord
 import datetime
 from utils import checks
 from discord.ext import commands
+from utils.dataIO import fileIO
 from random import choice as randchoice
 
 prefix = "b!"
@@ -34,6 +35,7 @@ modules = [
     'modules.gfx',
     'modules.autorole',
     'modules.repl2',
+    'modules.bump',
     'modules.terminal',
     'modules.casino',
     'modules.dev',
@@ -49,7 +51,33 @@ modules = [
 
 @bot.event
 async def on_message(message):
-    await bot.process_commands(message)
+    db = fileIO("data/ignore/ignore_list.json", "load")
+    author = message.author
+    server = message.server
+    channel = message.channel
+    settings = {"Channels" : [], "Users" : [], "Roles" : []}
+    if message.content.startswith("b!"):
+        if server.id not in db:
+            db[server.id] = settings
+            fileIO("data/ignore/ignore_list.json", "save", db)
+            print("[ Ignore ] Adding {} to ignore_list.json..".format(server.name))
+        if channel.id in db[server.id]["Channels"]:
+            ok = await bot.send_message(message.channel, "This channel is in the ignore list, please use another channel.")
+            await asyncio.sleep(10)
+            await bot.delete_message(ok)
+            print("[ Ignore ] Ignoring {} in ignored channel {}.".format(message.author.name, message.channel.name))
+        elif author.id in db[server.id]["Users"]:
+            ok = await bot.send_message(message.channel, "You are in the ignore list, please consult a mod or admin for your server.")
+            await asyncio.sleep(10)
+            await bot.delete_message(ok)
+            print("[ Ignore ] Ignoring {} ignored user.".format(message.author.name))
+        elif set(r.id for r in author.roles) & set(db[server.id]["Roles"]):
+            ok = await bot.send_message(message.channel, "You are a member of an ignored role. Please consult a mod or admin for your server.")
+            print("[ Ignore ] Ignoring {} apart of ignore role.".format(message.author.name))
+            await asyncio.sleep(10)
+            await bot.delete_message(ok)
+        else:
+            await bot.process_commands(message)
 
 @bot.event
 async def on_command(command, ctx):
@@ -60,8 +88,34 @@ async def on_command(command, ctx):
     print("[{} at {}] [Command] [{}] [{}/{}]: {}".format(time.strftime("%m/%d/%Y"), time.strftime("%I:%M:%S %p %Z"), server, ctx.message.author.id, ctx.message.author, ctx.message.content))
 
 @bot.event
-async def on_message_edit(before,msg):
-    await bot.process_commands(msg)
+async def on_message_edit(before, message):
+    db = fileIO("data/ignore/ignore_list.json", "load")
+    author = message.author
+    server = message.server
+    channel = message.channel
+    settings = {"Channels" : [], "Users" : [], "Roles" : []}
+    if message.content.startswith("b!"):
+        if server.id not in db:
+            db[server.id] = settings
+            fileIO("data/ignore/ignore_list.json", "save", db)
+            print("[ Ignore ] Adding {} to ignore_list.json..".format(server.name))
+        if channel.id in db[server.id]["Channels"]:
+            ok = await bot.send_message(message.channel, "This channel is in the ignore list, please use another channel.")
+            await asyncio.sleep(10)
+            await bot.delete_message(ok)
+            print("[ Ignore ] Ignoring {} in ignored channel {}.".format(message.author.name, message.channel.name))
+        elif author.id in db[server.id]["Users"]:
+            ok = await bot.send_message(message.channel, "You are in the ignore list, please consult a mod or admin for your server.")
+            await asyncio.sleep(10)
+            await bot.delete_message(ok)
+            print("[ Ignore ] Ignoring {} ignored user.".format(message.author.name))
+        elif set(r.id for r in author.roles) & set(db[server.id]["Roles"]):
+            ok = await bot.send_message(message.channel, "You are a member of an ignored role. Please consult a mod or admin for your server.")
+            print("[ Ignore ] Ignoring {} apart of ignore role.".format(message.author.name))
+            await asyncio.sleep(10)
+            await bot.delete_message(ok)
+        else:
+            await bot.process_commands(message)
 
 @bot.event
 async def on_command_error(error, ctx):
@@ -76,7 +130,7 @@ async def on_command_error(error, ctx):
         await bot.send_message(channel, ":x: This command is on cooldown. Try again in {:.2f}s".format(error.retry_after))
     else:
         if ctx.command:
-            await bot.send_message(ctx.message.channel, "An error occured while processing the `{}` command.".format(ctx.command.name))
+            await bot.send_message(ctx.message.channel, "{} :bangbang: An error occured while processing the `{}` command.\n\nPlease use `b!report <command name>`!!".format(ctx.message.author.mention, ctx.command.name))
         print('Ignoring exception in command {}'.format(ctx.command), file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
@@ -234,6 +288,6 @@ try:
     loop.run_until_complete(bot.login(""))
     loop.run_until_complete(bot.connect())
 except Exception:
-    loop.run_until_complete(os.system("main.py"))
+    loop.run_until_complete(os.system("shard_3.py"))
 finally:
     loop.close()
