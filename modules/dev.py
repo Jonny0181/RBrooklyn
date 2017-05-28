@@ -34,6 +34,11 @@ class Dev:
     @checks.is_owner()
     async def eval(self, ctx, *, code: str):
         """Evaluates code."""
+        server = ctx.message.server
+        author = ctx.message.author
+        channel = ctx.message.channel
+        message = ctx.message
+        ctx = ctx
         try:
             result = eval(code)
             if code.lower().startswith("print"):
