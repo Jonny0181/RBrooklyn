@@ -8,7 +8,6 @@ class bump:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.cooldown(1, 1500, type=commands.BucketType.server)
     @commands.command(pass_context=True)
     async def bump(self, ctx):
         """Bump your server!"""
