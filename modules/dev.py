@@ -58,7 +58,7 @@ class Dev:
     async def pip(self, ctx):
         """Pip tools."""
         if ctx.invoked_subcommand is None:
-            await self.bot.say(embed=discord.Embed(description="""b!pip
+            e = discord.Embed(description="""b!pip
 
 Pip tools.
 
@@ -68,7 +68,10 @@ Commands:
   install   Install pip programs for Python 3.5
 
 Type b!help command for more info on a command.
-You can also type b!help category for more info on a category."""))
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
             
     @pip.command()
     async def install(self, *, packagename):
