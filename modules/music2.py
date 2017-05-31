@@ -1058,7 +1058,7 @@ class Audio:
     async def audioset(self, ctx):
         """Audio settings."""
         if ctx.invoked_subcommand is None:
-            await self.bot.say(embed=discord.Embed(description="""b!audioset
+            e = discord.Embed(description="""b!audioset
 
 Audio settings.
 
@@ -1071,7 +1071,10 @@ Commands:
   player          Toggles between Ffmpeg and Avconv
 
 Type b!help command for more info on a command.
-You can also type b!help category for more info on a category."""))
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
 
     @audioset.command(name="cachemax")
     @checks.is_owner()
@@ -1129,7 +1132,7 @@ You can also type b!help category for more info on a category."""))
             data[server.id] = db_data
             fileIO(self.ban_list, "save", data)
         if ctx.invoked_subcommand is None:
-            await self.bot.say(embed=discord.Embed(description="""b!audioban
+            e = discord.Embed(description="""b!audioban
 
 Bans song from being played in your server. :ok_hand:
 
@@ -1139,7 +1142,10 @@ Commands:
   add    Add a name or link to banlist.
 
 Type b!help command for more info on a command.
-You can also type b!help category for more info on a category."""))
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
             
     @audioban.command(pass_context=True)
     async def status(self, ctx):
@@ -1281,7 +1287,7 @@ You can also type b!help category for more info on a category."""))
     async def cache(self, ctx):
         """Cache management tools."""
         if ctx.invoked_subcommand is None:
-            await self.bot.say(embed=discord.Embed(description="""b!cache
+            e = discord.Embed(description="""b!cache
 
 Cache management tools.
 
@@ -1291,7 +1297,10 @@ Commands:
   minimum Current minimum cache size, based on server count.
 
 Type b!help command for more info on a command.
-You can also type b!help category for more info on a category."""))
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
             return
 
     @cache.command(name="dump")
@@ -1337,7 +1346,7 @@ You can also type b!help category for more info on a category."""))
     async def local(self, ctx):
         """Local playlists commands"""
         if ctx.invoked_subcommand is None:
-            await self.bot.say(embed=discord.Embed(description="""b!local
+            e = discord.Embed(description="""b!local
 
 Local playlists commands
 
@@ -1345,7 +1354,10 @@ Commands:
   list Lists local playlists
 
 Type b!help command for more info on a command.
-You can also type b!help category for more info on a category."""))
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
 
     @local.command(name="start", pass_context=True, no_pm=True, hidden = True)
     async def play_local(self, ctx, *, name):
@@ -1619,7 +1631,7 @@ You can also type b!help category for more info on a category."""))
     async def playlist(self, ctx):
         """Playlist management/control."""
         if ctx.invoked_subcommand is None:
-            await self.bot.say(embed=discord.Embed(description="""b!playlist
+            e = discord.Embed(description="""b!playlist
 
 Playlist management/control.
 
@@ -1634,7 +1646,10 @@ Commands:
   append Appends to a playlist.
 
 Type b!help command for more info on a command.
-You can also type b!help category for more info on a category."""))
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
 
     @playlist.command(pass_context=True, no_pm=True, name="create")
     async def playlist_create(self, ctx, name):
