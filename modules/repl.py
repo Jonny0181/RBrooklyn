@@ -667,7 +667,8 @@ Commands:
 
 Type b!help command for more info on a command.
 You can also type b!help category for more info on a category.""")
-            e.set_author(name="Help for {}'s command {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
             await self.bot.say(embed=e)
 
     @replset.group(pass_context=True, name="print")
