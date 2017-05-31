@@ -656,7 +656,7 @@ class REPL:
     async def replset(self, ctx):
         """global repl settings"""
         if ctx.invoked_subcommand is None:
-            await self.bot.say(embed=discord.Embed(description="""b!replset
+            e = discord.Embed(description="""b!replset
 
 global repl settings
 
@@ -666,7 +666,9 @@ Commands:
   print      Sets where repl content goes when response is too large.
 
 Type b!help command for more info on a command.
-You can also type b!help category for more info on a category."""))
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
 
     @replset.group(pass_context=True, name="print")
     async def replset_print(self, ctx):
