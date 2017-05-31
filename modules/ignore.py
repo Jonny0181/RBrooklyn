@@ -18,7 +18,7 @@ class Ignore:
     async def _ignore(self, ctx):
         """Ignore a channel, user and or role for your server."""
         if ctx.invoked_subcommand is None:
-            await self.bot.say(embed=discord.Embed(description="""b!ignore
+            e = discord.Embed(description="""b!ignore
 
 Ignore a channel, user and or role for your server.
 
@@ -28,7 +28,10 @@ Commands:
   channel   Ignore a channel.
 
 Type b!help command for more info on a command.
-You can also type b!help category for more info on a category."""))
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
 
     @_ignore.command(pass_context=True)
     async def channel(self, ctx, *, channel : discord.Channel):
@@ -80,7 +83,7 @@ You can also type b!help category for more info on a category."""))
     async def _unignore(self, ctx):
         """Unignore a channel, user and or role for your server."""
         if ctx.invoked_subcommand is None:
-            await self.bot.say(embed=discord.Embed(description="""b!ignore
+            e = discord.Embed(description="""b!ignore
 
 Unignore a channel, user and or role for your server.
 
@@ -90,7 +93,10 @@ Commands:
   channel   Unignore a channel.
 
 Type b!help command for more info on a command.
-You can also type b!help category for more info on a category."""))
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
 
     @_unignore.command(name="channel", pass_context=True)
     async def _channel(self, ctx, *, channel : discord.Channel):
