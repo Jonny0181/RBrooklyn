@@ -34,7 +34,18 @@ class Terminal:
     async def cmdsettings(self, ctx):
         """Settings for Terminal"""
         if ctx.invoked_subcommand is None:
-            await self.bot.send_cmd_help(ctx)
+            e = discord.Embed(description="""b!cmdsettings
+
+Settings for Terminal
+
+Commands:
+  prefix Set the prefix for the Terminal
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
 
     @cmdsettings.command(name="prefix", pass_context=True)
     async def _prefix(self, ctx, prefix:str):
