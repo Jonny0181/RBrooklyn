@@ -450,7 +450,7 @@ class Casino:
         """Casino Group Commands"""
 
         if ctx.invoked_subcommand is None:
-            await self.bot.say(embed=discord.Embed(description="""b!casino
+            e = discord.Embed(description="""b!casino
 
 Casino Group Commands
 
@@ -467,7 +467,10 @@ Commands:
   transfer         Transfers chips to another player
 
 Type b!help command for more info on a command.
-You can also type b!help category for more info on a category."""))
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
 
     @casino.command(name="purge", pass_context=True)
     @checks.is_owner()
@@ -1511,7 +1514,7 @@ You can also type b!help category for more info on a category."""))
     async def setcasino(self, ctx):
         """Configures Casino Options"""
         if ctx.invoked_subcommand is None:
-            await self.bot.say(embed=discord.Embed(description="""b!setcasino
+            e = discord.Embed(description="""b!setcasino
 
 Configures Casino Options
 
@@ -1535,7 +1538,10 @@ Commands:
   reqremove       Remove a requirement to a membership
 
 Type b!help command for more info on a command.
-You can also type b!help category for more info on a category."""))
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
 
     @setcasino.command(name="transferlimit", pass_context=True)
     @checks.botcom()
