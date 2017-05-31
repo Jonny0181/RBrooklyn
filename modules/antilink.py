@@ -37,7 +37,7 @@ class AntiLink:
             data[server.id] = db_data
             fileIO(self.link_data, "save", data)
         if ctx.invoked_subcommand is None:
-            await self.bot.say(embed=discord.Embed(description="""b!antilink
+            e = discord.Embed(description="""b!antilink
 
 Commands:
 addword Adds word to the blacklist
@@ -48,7 +48,10 @@ status Shows antilink status
 removeword Adds word to the blacklist
 
 Type b!help command for more info on a command.
-You can also type b!help category for more info on a category."""))
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
 
     @antilink.command(pass_context=True)
     async def status(self, ctx):
