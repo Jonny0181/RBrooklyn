@@ -26,7 +26,7 @@ class ModLog:
         if ctx.invoked_subcommand is None:
             db = fileIO(self.direct, "load")
             server = ctx.message.server
-            await self.bot.say(embed=discord.Embed(description="""b!modlogtoggle
+            e = discord.Embed(description="""b!modlogtoggle
 
 toggle which server activity to log
 
@@ -43,14 +43,17 @@ Commands:
   user    toggle notifications when a user changes his profile
 
 Type b!help command for more info on a command.
-You can also type b!help category for more info on a category."""))
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
 
     @checks.botcom()
     @commands.group(pass_context=True, no_pm=True)
     async def modlogset(self, ctx):
         """Change modlog settings"""
         if ctx.invoked_subcommand is None:
-            await self.bot.say(embed=discord.Embed(description="""b!modlogset
+            e = discord.Embed(description="""b!modlogset
 
 Change modlog settings
 
@@ -63,7 +66,10 @@ Commands:
   channel  Set the channel to send notifications too
 
 Type b!help command for more info on a command.
-You can also type b!help category for more info on a category."""))
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
             
     @modlogset.command(pass_context=True)
     async def status(self, ctx):
