@@ -12,11 +12,12 @@ class AntiRaid:
         self.bot = bot
         self.settings = dataIO.load_json("data/antiraid/settings.json")
 
+    @checks.botcom()
     @commands.group(pass_context=True)
     async def antiraid(self, ctx):
         """Manage antiraid settings."""
         if not ctx.invoked_subcommand:
-            await self.bot.say(embed=discord.Embed(description="""b!antiraid
+            e = discord.Embed(description="""b!antiraid
 
 Manage antiraid settings.
 
@@ -27,7 +28,10 @@ Commands:
   toggle     Toggle antiraid.
 
 Type b!help command for more info on a command.
-You can also type b!help category for more info on a category."""))
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
         if not ctx.message.server.id in self.settings:
             self.settings[ctx.message.server.id] = {'joined': 0, 'channel': None, 'members': 4, 'protected': False}
             self.save_settings()
