@@ -112,7 +112,7 @@ class Autorole:
             dataIO.save_json(self.file_path, self.settings)
 
         if ctx.invoked_subcommand is None:
-            await self.bot.say(embed=discord.Embed(description="""b!autorole
+            e = discord.Embed(description="""b!autorole
 
 Change settings for autorole
 
@@ -124,7 +124,10 @@ Commands:
   toggle    Enables/Disables autorole
 
 Type b!autorole command for more info on a command.
-You can also type b!autorole category for more info on a category."""))
+You can also type b!autorole category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            await self.bot.say(embed=e)
             await self.bot.say("```Current autorole state: {}```".format(
                 self.settings[server.id]["ENABLED"]))
 
