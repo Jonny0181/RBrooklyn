@@ -149,7 +149,7 @@ class Music:
         """A set of commands to play music from listen.moe"""
         # If a subcommand isn't called
         if not ctx.invoked_subcommand:
-            self.bot.say(embed=discord.Embed(description="""b!lm
+            e = discord.Embed(description="""b!lm
 
 A set of commands to play music from listen.moe
 
@@ -162,7 +162,10 @@ Commands:
   playin     Has the bot join a voice channel and also starts the stream from...
 
 Type b!help command for more info on a command.
-You can also type b!help category for more info on a category."""))
+You can also type b!help category for more info on a category.""")
+            e.set_author(name="Help for {}'s command group {}.".format(self.bot.user.name, ctx.command), icon_url=ctx.message.server.me.avatar_url)
+            e.set_thumbnail(url=ctx.message.server.me.avatar_url)
+            self.bot.say(embed=e)
 
     @lm.command(name="start", pass_context=True)
     async def join_vc_and_play_stream(self, ctx, *, channel: discord.Channel = None):
