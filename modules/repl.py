@@ -656,7 +656,17 @@ class REPL:
     async def replset(self, ctx):
         """global repl settings"""
         if ctx.invoked_subcommand is None:
-            await send_cmd_help(ctx)
+            await self.bot.say(embed=discord.Embed(description="""b!replset
+
+global repl settings
+
+Commands:
+  prefix     Sets the prefixes repl looks for.
+  pagelength Sets the page length when using the [p]replset print pages option
+  print      Sets where repl content goes when response is too large.
+
+Type b!help command for more info on a command.
+You can also type b!help category for more info on a category."""))
 
     @replset.group(pass_context=True, name="print")
     async def replset_print(self, ctx):
