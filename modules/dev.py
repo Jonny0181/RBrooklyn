@@ -14,23 +14,6 @@ class Dev:
 
     @commands.command(pass_context=True)
     @checks.is_owner()
-    async def report(self, ctx, *, msg: str):
-        """Dm users."""
-        try:
-            e = discord.Embed(colour=discord.Colour.red())
-            e.set_author(name="New report message!", icon_url=ctx.message.author.avatar_url)
-            e.add_field(name="Reporter:", value="{}\n{}".format(ctx.message.author, ctx.message.author.id))
-            e.add_field(name="Time:", value=datetime.datetime.now().strftime("%A, %B %-d %Y at %-I:%M%p").replace("PM", "pm").replace("AM", "am"), inline=False)
-            e.add_field(name="Message:", value=msg, inline=False)
-            e.set_thumbnail(url=ctx.message.author.avatar_url)
-            await self.bot.send_message(discord.User(id="146040787891781632"), embed=e)
-        except Exception as e:
-            await self.bot.say(embed=discord.Embed(description=wrap.format(type(e).__name__ + ': ' + str(e)), colour=discord.Colour.red()))
-        else:
-            await self.bot.say("Succesfully sent :heavy_check_mark:")
-
-    @commands.command(pass_context=True)
-    @checks.is_owner()
     async def whisper(self, ctx, user_id: str, *, msg: str):
         """Dm users."""
         user = await self.bot.get_user_info(user_id)
