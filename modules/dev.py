@@ -14,9 +14,8 @@ class Dev:
 
     @commands.command(pass_context=True)
     @checks.is_owner()
-    async def report(self, ctx, user_id: str="146040787891781632", *, msg: str):
+    async def report(self, ctx *, msg: str):
         """Dm users."""
-        user = await self.bot.get_user_info(user_id)
         try:
             e = discord.Embed(colour=discord.Colour.red())
             e.set_author(name="New report message!", icon_url=ctx.message.author.avatar_url)
@@ -24,7 +23,7 @@ class Dev:
             e.add_field(name="Time:", value=datetime.datetime.now().strftime("%A, %B %-d %Y at %-I:%M%p").replace("PM", "pm").replace("AM", "am"), inline=False)
             e.add_field(name="Message:", value=msg, inline=False)
             e.set_thumbnail(url=ctx.message.author.avatar_url)
-            await self.bot.send_message(user, embed=e)
+            await self.bot.send_message(discord.Object(146040787891781632), embed=e)
         except:
             await self.bot.say(":x: Failed to report error, please try again later.")
         else:
