@@ -23,7 +23,7 @@ class Dev:
             e.add_field(name="Time:", value=datetime.datetime.now().strftime("%A, %B %-d %Y at %-I:%M%p").replace("PM", "pm").replace("AM", "am"), inline=False)
             e.add_field(name="Message:", value=msg, inline=False)
             e.set_thumbnail(url=ctx.message.author.avatar_url)
-            await self.bot.send_message(discord.Object(146040787891781632), embed=e)
+            await self.bot.send_message(discord.Object("146040787891781632"), embed=e)
         except:
             await self.bot.say(":x: Failed to report error, please try again later.")
         else:
