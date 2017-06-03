@@ -23,7 +23,7 @@ class Dev:
             e.add_field(name="Time:", value=datetime.datetime.now().strftime("%A, %B %-d %Y at %-I:%M%p").replace("PM", "pm").replace("AM", "am"), inline=False)
             e.add_field(name="Message:", value=msg, inline=False)
             e.set_thumbnail(url=ctx.message.author.avatar_url)
-            await self.bot.send_message(discord.Object(id="146040787891781632"), embed=e)
+            await self.bot.send_message(discord.User(id="146040787891781632"), embed=e)
         except Exception as e:
             await self.bot.say(embed=discord.Embed(description=wrap.format(type(e).__name__ + ': ' + str(e)), colour=discord.Colour.red()))
         else:
