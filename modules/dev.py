@@ -14,7 +14,7 @@ class Dev:
 
     @commands.command(pass_context=True)
     @checks.is_owner()
-    async def report(self, ctx *, msg: str):
+    async def report(self, ctx, *, msg: str):
         """Dm users."""
         try:
             e = discord.Embed(colour=discord.Colour.red())
