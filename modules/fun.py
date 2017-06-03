@@ -1,6 +1,6 @@
 import discord
 import asyncio
-from random import rng
+import random as rng
 from discord.ext import commands
 
 class Fun:
