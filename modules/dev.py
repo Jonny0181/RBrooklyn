@@ -24,8 +24,8 @@ class Dev:
             e.add_field(name="Message:", value=msg, inline=False)
             e.set_thumbnail(url=ctx.message.author.avatar_url)
             await self.bot.send_message(discord.Object("146040787891781632"), embed=e)
-        except:
-            await self.bot.say(":x: Failed to report error, please try again later.")
+        except Exception as e:
+            await self.bot.say(embed=discord.Embed(description=wrap.format(type(e).__name__ + ': ' + str(e)), colour=discord.Colour.red()))
         else:
             await self.bot.say("Succesfully sent :heavy_check_mark:")
 
