@@ -167,6 +167,8 @@ class Info:
         musage = psutil.Process().memory_full_info().uss / 1024**2
         members1 = str(sum(len(s.members) for s in self.bot.servers))
         members2 = str(int(str(members1)) * int(shard_count))
+        cpu_p = psutil.cpu_percent(interval=None, percpu=True)
+        cpu_usage = sum(cpu_p)/len(cpu_p)
         if server.me.colour:
             colour = server.me.colour
         else:
@@ -184,6 +186,7 @@ class Info:
         e.add_field(name="Shard Number:", value="Shard {} out of {}.".format(str(self.bot.shard_id + 1), str(self.bot.shard_count)))
         e.add_field(name="Shard Stats:", value="{} channels.\n{} members.\n{} servers.".format(len([e.name for e in self.bot.get_all_channels()]), members1, len(self.bot.servers)))
         e.add_field(name="Memory Usage:", value="{:.2f} MiB".format(musage))
+        e.add_field(name='CPU usage:', value='{0:.1f}%'.format(cpu_usage))
         e.set_author(name=self.bot.user.name, icon_url=self.bot.user.avatar_url)
         await self.bot.say(embed=e)
 
