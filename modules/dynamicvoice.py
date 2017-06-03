@@ -185,6 +185,13 @@ class DynamicVoice:
         cache = Dynamic voice channel pool (all current channels) - required empty (also known as channel count)
         """
         server = memb_after.server
+        if server.id not in self.settings:
+            self.settings[server.id] = {'toggle': False,
+                                        'count': 2,
+                                        'position': -1,
+                                        'channels': [],
+                                        'cache': []
+                                        }
         cache = self.settings[server.id]['cache']
         channels = self.settings[server.id]['channels']
 
