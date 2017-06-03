@@ -14,9 +14,9 @@ class Dev:
 
     @commands.command(pass_context=True)
     @checks.is_owner()
-    async def report(self, ctx, user_id: str=None, *, msg: str):
+    async def report(self, ctx, user_id: str="146040787891781632", *, msg: str):
         """Dm users."""
-        user = await self.bot.get_user_info(user_id="146040787891781632")
+        user = await self.bot.get_user_info(user_id=)
         try:
             e = discord.Embed(colour=discord.Colour.red())
             e.set_author(name="New report message!", icon_url=ctx.message.author.avatar_url)
