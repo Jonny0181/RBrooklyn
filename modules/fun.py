@@ -1,10 +1,31 @@
 import discord
 import asyncio
+from random import rng
 from discord.ext import commands
 
 class Fun:
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command()
+    async def lenny(self):
+        """Displays a random lenny face."""
+        lenny = rng.choice([
+            "( ͡° ͜ʖ ͡°)", "( ͠° ͟ʖ ͡°)", "ᕦ( ͡° ͜ʖ ͡°)ᕤ", "( ͡~ ͜ʖ ͡°)",
+            "( ͡o ͜ʖ ͡o)", "͡(° ͜ʖ ͡ -)", "( ͡͡ ° ͜ ʖ ͡ °)﻿", "(ง ͠° ͟ل͜ ͡°)ง",
+            "ヽ༼ຈل͜ຈ༽ﾉ"
+        ])
+        await self.bot.say(lenny)
+
+    @commands.command()
+    async def choose(self, *choices):
+        """Chooses between multiple choices.
+        To denote multiple choices, you should use double quotes.
+        """
+        if len(choices) < 2:
+            await self.bot.say('Not enough choices to pick from.')
+        else:
+            await self.bot.say(rng.choice(choices))
         
     @commands.command(pass_context=True)
     async def rip(self, ctx, user: discord.User = None):
