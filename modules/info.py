@@ -182,7 +182,7 @@ class Info:
         e.add_field(name="Servers:", value=str(int(len(self.bot.servers)) * int(shard_count)))
         e.add_field(name="Members:", value=members2)
         e.add_field(name="Shard Number:", value="Shard {} out of {}.".format(str(self.bot.shard_id + 1), str(self.bot.shard_count)))
-        e.add_field(name="Shard Servers and Members:", value="{} members in {} servers.".format(members1, len(self.bot.servers)))
+        e.add_field(name="Shard Stats:", value="{} channels.\n{} members.\n{} servers.".format(len([e.name for e in self.bot.get_all_channels()]), members1, len(self.bot.servers)))
         e.add_field(name="Memory Usage:", value="{:.2f} MiB".format(musage))
         e.set_author(name=self.bot.user.name, icon_url=self.bot.user.avatar_url)
         await self.bot.say(embed=e)
