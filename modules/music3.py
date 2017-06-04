@@ -208,9 +208,9 @@ class Music:
 			self.repeat = 0
 		try:
 			await self.bot.join_voice_channel(channel)
-			await self.bot.server_voice_state(server.me, deafned=True)
 		except:
-			await self.bot.reply("Missing permissions to server deafen myself. If I have these permissions it will help reduce audio lag.")
+			await server.voice_client.disconnect()
+			await self.bot.say("An error has occured, oh well. Use the fucking report command you fuck.")
 		return server.voice_client
 	
 	async def _disconnect(self, server):
