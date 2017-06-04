@@ -515,6 +515,7 @@ class Music:
 		user = ctx.message.author
 		members = sum(not m.bot for m in server.me.voice_channel.voice_members)
 		votes = int(100 * skips / members)
+		skips = len(self.skip_votes[server.id])
 		if instaskip or votes >= self.settings["vote_threshold"]:
 			self.players[server.id].stop()
 			await self.bot.say("Skipping")
