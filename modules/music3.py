@@ -513,30 +513,8 @@ class Music:
 		"""Skips a shitty song"""
 		server = ctx.message.server
 		user = ctx.message.author
-		admin_role = settings.get_server_admin(server)
-		mod_role = settings.get_server_mod(server)
-		instaskip = user.id == settings.owner or user == server.owner or discord.utils.get(user.roles, name=admin_role) is not None or discord.utils.get(user.roles, name=mod_role) is not None
-		
-		if server.id not in self.players:
-			await self.bot.say("Can't skip if I'm not playing")
-			return
-		
-		if not instaskip:
-			if server.id not in self.skip_votes:
-				self.skip_votes[server.id] = []
-			
-			for id in self.skip_votes[server.id]:
-				if user.id == id:
-					self.skip_votes[server.id].remove(id)
-					await self.bot.say("Vote to skip removed")
-					return
-			
-			self.skip_votes[server.id].append(user.id)
-			skips = len(self.skip_votes[server.id])
-			members = sum(not m.bot for m in server.me.voice_channel.voice_members)
-			
-			votes = int(100 * skips / members)
-		
+		members = sum(not m.bot for m in server.me.voice_channel.voice_members)
+		votes = int(100 * skips / members)
 		if instaskip or votes >= self.settings["vote_threshold"]:
 			self.players[server.id].stop()
 			await self.bot.say("Skipping")
