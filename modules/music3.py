@@ -1,6 +1,5 @@
 import discord
 from discord.ext import commands
-from __main__ import send_cmd_help, settings
 from utils.dataIO import dataIO
 from utils import checks
 import subprocess
