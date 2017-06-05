@@ -516,11 +516,11 @@ class Music:
 		members = sum(not m.bot for m in server.me.voice_channel.voice_members)
 		skips = len(self.skip_votes[server.id])
 		votes = int(100 * skips / members)
-		if votes >= self.settings["vote_threshold"]:
+		if votes >= 3:
 			self.players[server.id].stop()
 			await self.bot.say("Skipping")
 		else:
-			await self.bot.say(user.name + " voted to skip. " + str(votes) + "% out of " + str(self.settings["vote_threshold"]) + "% needed")
+			await self.bot.say(user.name + " voted to skip. " + len(skips) + " out of 3 needed")
 	
 	@commands.command(name="repeat")
 	async def re(self, amount : int):
