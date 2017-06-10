@@ -155,7 +155,7 @@ class Info:
         server = ctx.message.server
         e = discord.Embed(colour=author.colour)
         e.set_thumbnail(url=server.me.avatar_url)
-        e.title = "Currently on {} server with {} users on shard {}!".format(len(self.bot.servers), len([e.name for e in self.bot.get_all_members()], str(self.bot.shard_id + 1)))
+        e.title = "Currently on shard {} with {} servers and {} users!".format(str(self.bot.shard_id + 1), len(self.bot.servers), len([e.name for e in self.bot.get_all_members()]))
         e.description = "".join(["**Name:** {0.name} | **Members:** {0.member_count} Members\n\n".format(e) for e in sorted(self.bot.servers, key =lambda e : e.member_count, reverse=True)][:10])
         await self.bot.say(embed=e)
 
