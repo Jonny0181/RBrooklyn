@@ -145,13 +145,13 @@ class Music:
             await self.bot.say('**I\'m sorry, but I couldn\'t find anything for {}.**'.format(''.join(query)))
 
     @commands.group(pass_context=True)
-    async def lm(self, ctx):
-        """A set of commands to play music from listen.moe"""
+    async def samurai(self, ctx):
+        """A set of commands to play music from a stream."""
         # If a subcommand isn't called
         if not ctx.invoked_subcommand:
             e = discord.Embed(description="""b!lm
 
-A set of commands to play music from listen.moe
+A set of commands to play music from a stream.
 
 Commands:
   disconnect Leaves the voice channel and stops the stream
@@ -167,7 +167,7 @@ You can also type b!help category for more info on a category.""")
             e.set_thumbnail(url=ctx.message.server.me.avatar_url)
             self.bot.say(embed=e)
 
-    @lm.command(name="start", pass_context=True)
+    @samurai.command(name="start", pass_context=True)
     async def join_vc_and_play_stream(self, ctx, *, channel: discord.Channel = None):
         """Has the bot join a voice channel and also starts the stream from listen.moe"""
         try:
@@ -180,7 +180,7 @@ You can also type b!help category for more info on a category.""")
             # Set it to stereo and set sample rate to 48000
             voice_client.encoder_options(sample_rate=48000, channels=2)
             # Set the user agent and create the player
-            player = voice_client.create_ffmpeg_player("http://listen.moe:9999/stream", headers={"User-Agent": "Pixie (https://github.com/GetRektByMe/Pixie)"})
+            player = voice_client.create_ffmpeg_player("https://www.youtube.com/watch?v=ZJE8dbW10h4", headers={"User-Agent": "Pixie (https://github.com/GetRektByMe/Pixie)"})
             # Set default player volume
             player.volume = self.default_vol / 100
             # Start the player
@@ -202,7 +202,7 @@ You can also type b!help category for more info on a category.""")
         except discord.ClientException:
             await self.bot.say("```xl\nSorry, I'm already in a voice channel on this server!```")
 
-    @lm.command(name="pause", pass_context=True)
+    @samurai.command(name="pause", pass_context=True)
     async def pause_audio_stream(self, ctx):
         """Pauses the music"""
         # Get the player object from the dict using the server id as a key
@@ -212,7 +212,7 @@ You can also type b!help category for more info on a category.""")
         # Tell the user who executed the command that the bot's stream is paused
         await self.bot.say("```xl\nStream has been paused```")
 
-    @lm.command(name="resume", pass_context=True)
+    @samurai.command(name="resume", pass_context=True)
     async def resume_audio_stream(self, ctx):
         """Unpauses the music"""
         # Get the player object from the dict using the server id as a key
@@ -222,7 +222,7 @@ You can also type b!help category for more info on a category.""")
         # Tell the user who executed the command that the stream is resumed
         await self.bot.say("```xl\nStream has been resumed```")
 
-    @lm.command(name="volume", pass_context=True)
+    @samurai.command(name="volume", pass_context=True)
     async def change_volume(self, ctx, volume: int = 100):
         """Allows the user to change the volume of the bot"""
         # Get the player object from the dict using the server id as a key
@@ -238,7 +238,7 @@ You can also type b!help category for more info on a category.""")
         # Tell the user what the current volume now is
         await self.bot.say("```py\nVolume has been changed to: {}```".format(str(volume)))
 
-    @lm.command(name="check_vol", pass_context=True)
+    @samurai.command(name="check_vol", pass_context=True)
     async def check_volume(self, ctx):
         """Checks the volume for the servers voice channel that it's in"""
         # Get the player object from the dict using the server id as a key
@@ -246,7 +246,7 @@ You can also type b!help category for more info on a category.""")
         # Have the bot say the volume
         await self.bot.say("```xl\nThe current volume is: {}```".format(player.volume * 100))
 
-    @lm.command(name="disconnect", pass_context=True)
+    @samurai.command(name="disconnect", pass_context=True)
     async def leave_vc(self, ctx):
         """Leaves the voice channel and stops the stream"""
         # Get the voice and player objects using the server id as a key
