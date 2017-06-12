@@ -25,19 +25,8 @@ patreon_link = "_brooklyn"
 class Info:
     def __init__(self, bot):
         self.bot = bot
-        self.seen = dataIO.load_json('data/seen/seen.json')
         self.new_data = False
-        self.reminders = fileIO("data/remindme/reminders.json", "load")
         self.units = {"minute" : 60, "hour" : 3600, "day" : 86400, "week": 604800, "month": 2592000}
-
-    async def data_writer(self):
-        while self == self.bot.get_cog('Seen'):
-            if self.new_data:
-                dataIO.save_json('data/seen/seen.json', self.seen)
-                self.new_data = False
-                await asyncio.sleep(60)
-            else:
-                await asyncio.sleep(30)
 
     @commands.command()
     async def patreon(self):
@@ -717,5 +706,4 @@ def setup(bot):
     n = Info(bot)
     loop = asyncio.get_event_loop()
     loop = asyncio.get_event_loop()
-    loop.create_task(n.data_writer())
     bot.add_cog(n)
