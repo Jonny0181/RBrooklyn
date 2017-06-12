@@ -25,8 +25,6 @@ patreon_link = "_brooklyn"
 class Info:
     def __init__(self, bot):
         self.bot = bot
-        self.new_data = False
-        self.units = {"minute" : 60, "hour" : 3600, "day" : 86400, "week": 604800, "month": 2592000}
 
     @commands.command()
     async def patreon(self):
@@ -688,22 +686,7 @@ https://discord.gg/fmuvSX9""")
         await self.bot.say(msg)
         msg = await self.bot.wait_for_message(author=ctx.message.author, channel=ctx.message.channel)
         return msg
-        
-    async def on_message(self, message):
-        if not message.channel.is_private and self.bot.user.id != message.author.id:
-            server = message.server
-            author = message.author
-            ts = message.timestamp.timestamp()
-            data = {}
-            data['TIMESTAMP'] = ts
-            if server.id not in self.seen:
-                self.seen[server.id] = {}
-                self.seen[server.id][author.id] = data
-                self.new_data = True
-
 
 def setup(bot):
     n = Info(bot)
-    loop = asyncio.get_event_loop()
-    loop = asyncio.get_event_loop()
     bot.add_cog(n)
