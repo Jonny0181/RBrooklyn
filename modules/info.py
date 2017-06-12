@@ -50,10 +50,13 @@ class Info:
         color = discord.Color.default()
         if status == "good":
             color = discord.Color.green()
+            status = "Good :white_check_mark:"
         elif status == "minor":
+            status = "Minor :hourglass:"
             color = discord.Color.gold()
         elif status == "major":
             color = discord.Color.red()
+            status = "Major :x:"
         embed = discord.Embed(color=color)
         embed.title="GitHub Status"
         embed.set_footer(text="Last updated " + timestamp)
