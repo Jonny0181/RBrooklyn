@@ -716,7 +716,6 @@ https://discord.gg/fmuvSX9""")
 def setup(bot):
     n = Info(bot)
     loop = asyncio.get_event_loop()
-    loop.create_task(n.check_reminders())
     loop = asyncio.get_event_loop()
     loop.create_task(n.data_writer())
     bot.add_cog(n)
