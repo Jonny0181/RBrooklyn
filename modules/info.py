@@ -51,7 +51,7 @@ class Info:
                 else:
                     patrons = "N/A"
                     pledge = "N/A"
-        await self.bot.say("{0} patrons, ${1} per month. Become a patron: https://www.patreon.com/{2}".format(
+        await self.bot.say("{0} patrons, ${1} per month. Become a patron: <https://www.patreon.com/{2}>".format(
             patrons, pledge, patreon_link))
 
     @commands.command(pass_context=True)
@@ -375,45 +375,6 @@ https://discord.gg/fmuvSX9""")
             await self.bot.say("I need the `Embed links` permission "
                                "to send this")
 
-    @commands.command(pass_context=True, no_pm=True, name='seen')
-    async def _seen(self, context, username: discord.Member):
-        '''seen <@username>'''
-        server = context.message.server
-        author = username
-        timestamp_now = context.message.timestamp
-        if True if author.id in self.seen[server.id] else False if server.id in self.seen else False:
-            data = self.seen[server.id][author.id]
-            timestamp_then = datetime.fromtimestamp(data['TIMESTAMP'])
-            timestamp = timestamp_now - timestamp_then
-            days = timestamp.days
-            seconds = timestamp.seconds
-            hours = seconds // 3600
-            seconds = seconds - (hours * 3600)
-            minutes = seconds // 60
-            if sum([days, hours, minutes]) < 1:
-                ts = 'just now'
-            else:
-                ts = ''
-                if days == 1:
-                    ts += '{} day, '.format(days)
-                elif days > 1:
-                    ts += '{} days, '.format(days)
-                if hours == 1:
-                    ts += '{} hour, '.format(hours)
-                elif hours > 1:
-                    ts += '{} hours, '.format(hours)
-                if minutes == 1:
-                    ts += '{} minute ago'.format(minutes)
-                elif minutes > 1:
-                    ts += '{} minutes ago'.format(minutes)
-            em = discord.Embed(color=discord.Color.green())
-            avatar = author.avatar_url if author.avatar else author.default_avatar_url
-            em.set_author(name='{} was seen {}'.format(author.display_name, ts), icon_url=avatar)
-            await self.bot.say(embed=em)
-        else:
-            message = 'I haven\'t seen {} yet.'.format(author.display_name)
-            await self.bot.say('{}'.format(message))
-
     @commands.command(pass_context=True)
     async def ping(self, ctx):
         """Pong."""
@@ -455,7 +416,7 @@ https://discord.gg/fmuvSX9""")
         data.add_field(name="Shard Count", value=self.bot.shard_count)
         data.add_field(name="Servers", value=len(self.bot.servers))
         data.add_field(name="Api version", value=discord.__version__)
-        data.add_field(name="Users", value="{} Online<:vpOnline:212789758110334977>\n{} Idle<:vpAway:212789859071426561>\n{} Dnd<:vpDnD:236744731088912384>\n{} Offline<:vpOffline:212790005943369728>\n\n**Total:** {}".format(online, idle, dnd, offline, len([e.name for e in self.bot.get_all_members()])))
+        data.add_field(name="Users", value="{} Online\n{} Idle\n{} Dnd\n{} Offline\n\n**Total:** {}".format(online, idle, dnd, offline, len([e.name for e in self.bot.get_all_members()])))
         data.add_field(name="Channels", value="{} Voice Channels\n{} Text Channels\n\n**Total:** {}".format(len([e.name for e in self.bot.get_all_channels() if e.type == discord.ChannelType.voice]), len([e.name for e in self.bot.get_all_channels() if e.type == discord.ChannelType.text]), len([e.name for e in self.bot.get_all_channels()])))
         data.add_field(name='CPU usage', value='{0:.1f}%'.format(cpu_usage))
         data.add_field(name='Memory usage', value='{0:.1f}%'.format(mem_v.percent))
@@ -751,118 +712,8 @@ https://discord.gg/fmuvSX9""")
                 self.seen[server.id][author.id] = data
                 self.new_data = True
 
-    @commands.command(pass_context=True)
-    async def remindme(self, ctx,  quantity : int, time_unit : str, *, text : str):
-        """Sends you <text> when the time is up
-        Accepts: minutes, hours, days, weeks, month
-        Example:
-        [p]remindme 3 days Have sushi with Asu and JennJenn"""
-        time_unit = time_unit.lower()
-        author = ctx.message.author
-        s = ""
-        if time_unit.endswith("s"):
-            time_unit = time_unit[:-1]
-            s = "s"
-        if not time_unit in self.units:
-            await self.bot.say("Invalid time unit. Choose minutes/hours/days/weeks/month")
-            return
-        if quantity < 1:
-            await self.bot.say("Quantity must not be 0 or negative.")
-            return
-        if len(text) > 1960:
-            await self.bot.say("Text is too long.")
-            return
-        seconds = self.units[time_unit] * quantity
-        future = int(time.time()+seconds)
-        self.reminders.append({"ID" : author.id, "FUTURE" : future, "TEXT" : text})
-        logger.info("{} ({}) set a reminder.".format(author.name, author.id))
-        await self.bot.say("I will remind you that in {} {}.".format(str(quantity), time_unit + s))
-        fileIO("data/remindme/reminders.json", "save", self.reminders)
-
-    @commands.command(pass_context=True)
-    async def forgetme(self, ctx):
-        """Removes all your upcoming notifications"""
-        author = ctx.message.author
-        to_remove = []
-        for reminder in self.reminders:
-            if reminder["ID"] == author.id:
-                to_remove.append(reminder)
-
-        if not to_remove == []:
-            for reminder in to_remove:
-                self.reminders.remove(reminder)
-            fileIO("data/remindme/reminders.json", "save", self.reminders)
-            await self.bot.say("All your notifications have been removed.")
-        else:
-            await self.bot.say("You don't have any upcoming notification.")
-
-    async def check_reminders(self):
-        while self is self.bot.get_cog("RemindMe"):
-            to_remove = []
-            for reminder in self.reminders:
-                if reminder["FUTURE"] <= int(time.time()):
-                    try:
-                        await self.bot.send_message(discord.User(id=reminder["ID"]), "You asked me to remind you this:\n{}".format(reminder["TEXT"]))
-                    except (discord.errors.Forbidden, discord.errors.NotFound):
-                        to_remove.append(reminder)
-                    except discord.errors.HTTPException:
-                        pass
-                    else:
-                        to_remove.append(reminder)
-            for reminder in to_remove:
-                self.reminders.remove(reminder)
-            if to_remove:
-                fileIO("data/remindme/reminders.json", "save", self.reminders)
-            await asyncio.sleep(5)
-
-def check_folders():
-    if not os.path.exists("data/remindme"):
-        print("Creating data/remindme folder...")
-        os.makedirs("data/remindme")
-
-def check_files():
-    f = "data/remindme/reminders.json"
-    if not fileIO(f, "check"):
-        print("Creating empty reminders.json...")
-        fileIO(f, "save", [])
-
-def check_folder():
-    if not os.path.exists('data/seen'):
-        print('Creating data/seen folder...')
-        os.makedirs('data/seen')
-
-
-def check_file():
-    data = {}
-    data['db_version'] = DB_VERSION
-    f = 'data/seen/seen.json'
-    if not dataIO.is_valid_json(f):
-        print('Creating seen.json...')
-        dataIO.save_json(f, data)
-    else:
-        check = dataIO.load_json(f)
-        if 'db_version' in check:
-            if check['db_version'] < DB_VERSION:
-                data = {}
-                data['db_version'] = DB_VERSION
-                dataIO.save_json(f, data)
-                print('SEEN: Database version too old, resetting!')
-        else:
-            data = {}
-            data['db_version'] = DB_VERSION
-            dataIO.save_json(f, data)
-            print('SEEN: Database version too old, resetting!')
-
 
 def setup(bot):
-    check_folder()
-    check_file()
-    logger = logging.getLogger("remindme")
-    if logger.level == 0: # Prevents the logger from being loaded again in case of module reload
-        logger.setLevel(logging.INFO)
-        handler = logging.FileHandler(filename='data/remindme/reminders.log', encoding='utf-8', mode='a')
-        handler.setFormatter(logging.Formatter('%(asctime)s %(message)s', datefmt="[%d/%m/%Y %H:%M]"))
-        logger.addHandler(handler)
     n = Info(bot)
     loop = asyncio.get_event_loop()
     loop.create_task(n.check_reminders())
