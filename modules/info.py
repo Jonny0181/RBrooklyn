@@ -39,8 +39,9 @@ class Info:
             else:
                 await asyncio.sleep(30)
 
-    @commands.command(description=desc.patreon, brief=desc.patreon)
+    @commands.command()
     async def patreon(self):
+        """Shows Patreon stats."""
         with aiohttp.ClientSession() as session:
             async with session.get('http://api.patreon.com/user/{}'.format(user_id)) as resp:
                 data = await resp.json()
