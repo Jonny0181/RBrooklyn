@@ -5,6 +5,7 @@ import asyncio
 import psutil
 import logging
 import datetime
+import urllib.request
 from datetime import datetime
 import time
 import copy
@@ -33,6 +34,32 @@ class Info:
                 await asyncio.sleep(60)
             else:
                 await asyncio.sleep(30)
+
+    @commands.command(pass_context=True)
+    async def ghstatus(self, ctx): # !!ghstatus
+        await self.bot.send_typing(ctx.message.channel)
+        st = urllib.request.urlopen('https://status.github.com/api/last-message.json')
+        st = str(st.read())
+        st = st[2:]
+        st = st[:len(st) - 1]
+        st = ast.literal_eval(st)
+        status = st['status']
+        desc = st['body']
+        timestamp = st['created_on']
+        color = discord.Color.default()
+        if status == "good":
+            color = discord.Color.green()
+        elif status == "minor":
+            color = discord.Color.gold()
+        elif status == "major":
+            color = discord.Color.red()
+        embed = discord.Embed(color=color)
+        embed.title="GitHub Status"
+        embed.set_footer(text="Last updated " + timestamp)
+        embed.add_field(name="Status", value=status)
+        embed.add_field(name="Description", value=desc)
+        embed.set_thumbnail(url="https://maxcdn.icons8.com/iOS7/PNG/75/Logos/github_copyrighted_filled-75.png")
+        await self.bot.say(embed=embed)
 
     @commands.command()
     async def shard(self):
