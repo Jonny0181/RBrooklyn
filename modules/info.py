@@ -4,6 +4,7 @@ import os
 import asyncio
 import psutil
 import ast
+import aiohttp
 import logging
 import datetime
 import urllib.request
@@ -18,6 +19,8 @@ from utils.chat_formatting import pagify, box
 starttime = time.time()
 DB_VERSION = 2
 wrap = "```py\n{}```"
+user_id = "3691279"
+patreon_link = "_brooklyn"
 
 class Info:
     def __init__(self, bot):
@@ -35,6 +38,20 @@ class Info:
                 await asyncio.sleep(60)
             else:
                 await asyncio.sleep(30)
+
+    @commands.command(description=desc.patreon, brief=desc.patreon)
+    async def patreon(self):
+        with aiohttp.ClientSession() as session:
+            async with session.get('http://api.patreon.com/user/{}'.format(user_id)) as resp:
+                data = await resp.json()
+                if len(data["linked"]) > 0:
+                    patrons = str(data["linked"][0]["patron_count"])
+                    pledge = str(data["linked"][0]["pledge_sum"])[:-2]
+                else:
+                    patrons = "N/A"
+                    pledge = "N/A"
+        await self.bot.say("{0} patrons, ${1} per month. Become a patron: https://www.patreon.com/{2}".format(
+            patrons, pledge, patreon_link))
 
     @commands.command(pass_context=True)
     async def ghstatus(self, ctx): # !!ghstatus
