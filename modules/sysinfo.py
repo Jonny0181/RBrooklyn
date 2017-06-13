@@ -1,5 +1,5 @@
 from discord.ext import commands
-from cogs.utils import checks
+from utils import checks
 import asyncio
 import os
 from datetime import datetime
