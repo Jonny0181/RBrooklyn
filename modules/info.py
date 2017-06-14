@@ -26,6 +26,62 @@ class Info:
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(pass_context=True)
+    async def channels(self, ctx):
+        """Lists all servers channels."""
+
+        list = "\n".join([c.name for c in ctx.message.server.channels])
+        for page in pagify(list, ["\n"], shorten_by=7, page_length=2000):
+            await self.bot.say(box(page))
+
+    @commands.command(pass_context=True)
+    async def textchannels(self, ctx):
+        """Lists only servers text channels."""
+
+        list = "\n".join(
+            [c.name for c in ctx.message.server.channels if c.type == discord.ChannelType.text])
+        for page in pagify(list, ["\n"], shorten_by=7, page_length=2000):
+            await self.bot.say(box(page))
+
+    @commands.command(pass_context=True)
+    async def rolecount(self, ctx):
+        """Shows server role count."""
+
+        list = len([x.name for x in ctx.message.server.role_hierarchy if x.name != "@everyone"])
+        await self.bot.say(box(list, "Prolog"))
+
+    @commands.command(pass_context=True)
+    async def roles(self, ctx):
+        """Lists all servers roles."""
+
+        list = "\n".join([x.name for x in ctx.message.server.role_hierarchy if x.name != "@everyone"])
+        for page in pagify(list, ["\n"], shorten_by=7, page_length=2000):
+            await self.bot.say(box(page))
+
+    @commands.command(pass_context=True)
+    async def botlist(self, ctx):
+        """Lists all bots in the server."""
+
+        list = "\n".join([m.name for m in ctx.message.server.members if m.bot])
+        for page in pagify(list, ["\n"], shorten_by=7, page_length=2000):
+            await self.bot.say(box(page))
+
+    @commands.command(pass_context=True)
+    async def usercount(self, ctx):
+        """Shows server member count."""
+
+        list = len([m.name for m in ctx.message.server.members if not m.bot])
+        await self.bot.say(box(list, "Prolog"))
+
+    @commands.command(pass_context=True)
+    async def voicechannels(self, ctx):
+        """Lists only servers voice channels."""
+
+        list = "\n".join(
+            [c.name for c in ctx.message.server.channels if c.type == discord.ChannelType.voice])
+        for page in pagify(list, ["\n"], shorten_by=7, page_length=2000):
+            await self.bot.say(box(page))
+
     @commands.command()
     async def patreon(self):
         """Shows Patreon stats."""
@@ -496,7 +552,7 @@ https://discord.gg/fmuvSX9""")
         if bancount == 0:
             banlist = "No users are banned from this server"
         else:
-            banlist = ", ".join(map(str, banlist))
+            banlist = "\n".join(map(str, banlist))
         await self.bot.say("Total bans: `{}`\n```{}```".format(bancount, banlist))
         
     @commands.command(pass_context=True)
