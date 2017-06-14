@@ -253,6 +253,30 @@ class Fun:
     async def cookie(self, ctx, *, user: discord.Member):
         await self.bot.say("**You have given {} a cookie! | :cookie:**".format(user.mention))
 
+    @commands.command(pass_context=True)
+    async def pun(self, ctx):
+        '''
+        Gives a random pun from the depths of the internet.
+        '''
+
+        # Send typing, so you can see it's being processed
+        await self.bot.send_typing(ctx.message.channel)
+
+        # Read from page
+        async with self.session.get('http://www.punoftheday.com/cgi-bin/randompun.pl') as r:
+            page = await r.text()
+
+        # Scrape the raw HTML
+        r = r'(<div class=\"dropshadow1\">\n<p>).*(</p>\n</div>)'
+        foundPun = [i for i in finditer(r, page)][0].group()
+
+        # Filter out the pun
+        r = r'(>).*(<)'
+        filteredPun = [i for i in finditer(r, foundPun)][0].group()
+
+        # Boop it out
+        fullPun = filteredPun[1:-1]
+        await self.bot.say(fullPun)
         
 def setup(bot):
     bot.add_cog(Fun(bot))
