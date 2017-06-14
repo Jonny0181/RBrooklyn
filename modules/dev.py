@@ -12,6 +12,18 @@ class Dev:
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(pass_context=True)
+    async def github(self, ctx):
+        """Post Brooklyn's github link."""
+        link = "https://github.com/JonnyBoy2000/RBrooklyn"
+        author = message.author.mention
+        msg = """{} this command is only for coders that want to make pull requests on the github!
+
+        If you are wanting to add features to Brooklyn please refer to this github link <{}>!
+        Other than that please ignore this link, and continue along your way!
+
+        Maybe sometime in the future I will make Brooklyn an open source bot for the public! (Soon:tm:, in the workings. :wink:)"""
+        await self.bot.say(msg.format(author, link))
 
     @commands.command(pass_context=True)
     async def report(self, ctx, *, command_name: str):
