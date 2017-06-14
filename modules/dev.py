@@ -17,12 +17,11 @@ class Dev:
         """Post Brooklyn's github link."""
         link = "https://github.com/JonnyBoy2000/RBrooklyn"
         author = ctx.message.author.mention
-        msg = """{} this command is only for coders that want to make pull requests on the github!
+        msg = """{} this command is on for coders that want to make a pull request on the github page for feature requests! If you are wanting to code features or make an pull request please visit the link below, all code will be looked over an reviewed before merged with the master branch.
 
-If you are wanting to add features to Brooklyn please refer to this github link <{}>!
-Other than that please ignore this link, and continue along your way!
+**Link:** {}
 
-Maybe sometime in the future I will make Brooklyn an open source bot for the public! (Soon:tm:, in the workings. :wink:)"""
+Sometime in the near future I will make Brooklyn open for the public, and users be able to have their own instances of the bot! (In the working should been released in the next couple of months or if I Brooklyn hits 2k servers!) Just a reminder, I love you all and thank you for the support! :heart:"""
         await self.bot.say(msg.format(author, link))
 
     @commands.command(pass_context=True)
