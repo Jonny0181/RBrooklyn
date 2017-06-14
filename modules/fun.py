@@ -263,7 +263,7 @@ class Fun:
         await self.bot.send_typing(ctx.message.channel)
 
         # Read from page
-        async with self.session.get('http://www.punoftheday.com/cgi-bin/randompun.pl') as r:
+        async with aiohttp.get('http://www.punoftheday.com/cgi-bin/randompun.pl') as r:
             page = await r.text()
 
         # Scrape the raw HTML
