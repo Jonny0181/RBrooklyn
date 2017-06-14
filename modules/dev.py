@@ -21,7 +21,7 @@ class Dev:
 
 **Link:** {}
 
-Sometime in the near future I will make Brooklyn open for the public, and users be able to have their own instances of the bot! (In the working should been released in the next couple of months or if I Brooklyn hits 2k servers!) Just a reminder, I love you all and thank you for the support! :heart:"""
+Sometime in the near future I will make Brooklyn open for the public, and users be able to have their own instances of the bot! (In the working should been released in the next couple of months or if Brooklyn hits 2k servers!) Just a reminder, I love you all and thank you for the support! :heart:"""
         await self.bot.say(msg.format(author, link))
 
     @commands.command(pass_context=True)
