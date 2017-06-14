@@ -16,7 +16,7 @@ class Dev:
     async def github(self, ctx):
         """Post Brooklyn's github link."""
         link = "https://github.com/JonnyBoy2000/RBrooklyn"
-        author = message.author.mention
+        author = ctx.message.author.mention
         msg = """{} this command is only for coders that want to make pull requests on the github!
 
         If you are wanting to add features to Brooklyn please refer to this github link <{}>!
