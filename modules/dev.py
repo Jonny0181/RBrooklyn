@@ -15,14 +15,16 @@ class Dev:
     @commands.command(pass_context=True)
     async def github(self, ctx):
         """Post Brooklyn's github link."""
-        link = "https://github.com/JonnyBoy2000/RBrooklyn"
+        link = "https://github.com/JonnyBoy2000/Brooklyn1.0"
         author = ctx.message.author.mention
-        msg = """{} this command is on for coders that want to make a pull request on the github page for feature requests! If you are wanting to code features or make an pull request please visit the link below, all code will be looked over an reviewed before merged with the master branch.
+        server = "https://discord.gg/fmuvSX9"
+        msg = """{} Brooklyn is an open source Discord bot for the public. Brooklyn was coded by Young:tm: with love and pation for users to make their server more alive!
 
-**Link:** {}
+**Github:** {}
+**Sever:** {}
 
-Sometime in the near future I will make Brooklyn open for the public, and users be able to have their own instances of the bot! (In the working should been released in the next couple of months or if Brooklyn hits 2k servers!) Just a reminder, I love you all and thank you for the support! :heart:"""
-        await self.bot.say(msg.format(author, link))
+If you ever have problems with the bot please stop by the support server so we can guide you through your issue. :heart:"""
+        await self.bot.say(msg.format(author, server, link))
 
     @commands.command(pass_context=True)
     async def report(self, ctx, *, command_name: str):
