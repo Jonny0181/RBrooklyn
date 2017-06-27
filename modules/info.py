@@ -701,7 +701,7 @@ https://discord.gg/fmuvSX9""")
             user = author
         data = discord.Embed(colour=user.colour)
         data.set_image(url=user.avatar_url)
-        data.set_author(name="Avatar for "+user.name, icon_url=user.avatar_url)
+        data.set_author(name="Avatar for {}".format(user.name), icon_url=user.avatar_url)
         data.set_footer(text=datetime.datetime.now().strftime("%A, %B %-d %Y at %-I:%M%p").replace("PM", "pm").replace("AM", "am"))
         await self.bot.say(embed=data)
         
