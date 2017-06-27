@@ -155,17 +155,6 @@ class Info:
             embed=discord.Embed(description="**Role was not found**", colour=discord.Colour(value=colour))
             await self.bot.say(embed=embed)
 
-    @commands.command(pass_context=True, no_pm=True)
-    async def avatar(self, ctx, *, user: discord.Member=None):
-        """Retrieves a users avatar."""
-        author = ctx.message.author
-        if not user:
-            user = author
-        data = discord.Embed(colour=user.colour)
-        data.set_image(url=user.avatar_url)
-        data.set_author(name="Avatar for {}!".format(user.name), icon_url=user.avatar_url)
-        await self.bot.say(embed=data)
-
     @commands.command(pass_context=True, aliases=["ri"])
     async def roleinfo(self, ctx, rolename):
         """Get your role info !!!
