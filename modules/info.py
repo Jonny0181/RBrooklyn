@@ -8,7 +8,6 @@ import aiohttp
 import logging
 import datetime
 import urllib.request
-from datetime import datetime
 import time
 import copy
 from utils.dataIO import dataIO, fileIO
