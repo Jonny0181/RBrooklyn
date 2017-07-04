@@ -255,6 +255,20 @@ class Fun:
             await self.bot.say(ctx.message.author.mention + " You can't give yourself a fucking cookie you dumb twat.")
         else:
             await self.bot.say("**You have given {} a cookie! | :cookie:**".format(user.mention))
+            
+    @commands.command(pass_context=True, no_pm=True)
+    async def hug(self, ctx, *, user: discord.Memer):
+        urls = ["https://giphy.com/gifs/happy-hug-od5H3PmEG5EVq",
+            "https://giphy.com/gifs/cheezburger-hug-baymax-lXiRKBj0SAA0EWvbG"]
+        if user == ctx.message.author:
+            txt = "{}, you can't hug yourself baka!".format(ctx.message.author.mention)
+        elif user == self.bot:
+            txt = "{}, I don't hug...__**`anyone.`**__".format(ctx.message.author.mention)
+        else:
+            txt = "{} *hugs {} :hugging:".format(ctx.message.author.mention, user.mention)
+        e = discord.Embed(description=txt)
+        e.set_image(url=random.choice(urls))
+        await self.bot.delete_message(message)
         
 def setup(bot):
     bot.add_cog(Fun(bot))
