@@ -257,7 +257,7 @@ class Fun:
             await self.bot.say("**You have given {} a cookie! | :cookie:**".format(user.mention))
             
     @commands.command(pass_context=True, no_pm=True)
-    async def hug(self, ctx, *, user: discord.Memer):
+    async def hug(self, ctx, *, user: discord.Member):
         urls = ["https://giphy.com/gifs/happy-hug-od5H3PmEG5EVq",
             "https://giphy.com/gifs/cheezburger-hug-baymax-lXiRKBj0SAA0EWvbG"]
         if user == ctx.message.author:
