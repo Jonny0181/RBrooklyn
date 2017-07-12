@@ -3,7 +3,7 @@ import discord.utils
 import json
 
 def is_owner_check(message):
-    return message.author.id == "146040787891781632"
+    return message.author.id == "146040787891781632" or "95645231248048128"
 
 def is_owner():
     return commands.check(lambda ctx: is_owner_check(ctx.message))
