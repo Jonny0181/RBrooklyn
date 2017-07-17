@@ -62,29 +62,6 @@ If you ever have problems with the bot please stop by the support server so we c
         else:
             await self.bot.say('Succesfully sent message to {}'.format(user_id))
 
-    @commands.command(hidden=True, pass_context=True)
-    @checks.is_owner()
-    async def eval(self, ctx, *, code: str):
-        """Evaluates code."""
-        server = ctx.message.server
-        author = ctx.message.author
-        channel = ctx.message.channel
-        message = ctx.message
-        ctx = ctx
-        try:
-            result = eval(code)
-            if code.lower().startswith("print"):
-                result
-            elif asyncio.iscoroutine(result):
-                await result
-            else:
-                e = discord.Embed(colour=discord.Colour.green())
-                e.add_field(name="Input:", value=wrap.format(code), inline=False)
-                e.add_field(name="Output:", value=wrap.format(result), inline=False)
-                await self.bot.say(embed=e)
-        except Exception as e:
-            await self.bot.say(embed=discord.Embed(description=wrap.format(type(e).__name__ + ': ' + str(e)), colour=discord.Colour.red()))
-
     @commands.group(pass_context=True)
     @checks.is_owner()
     async def pip(self, ctx):
